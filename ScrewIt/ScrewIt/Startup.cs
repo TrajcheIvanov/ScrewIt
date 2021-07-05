@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ScrewIt.Repositories;
+using ScrewIt.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +26,17 @@ namespace ScrewIt
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDbContext<ScrewItDbContext>(
+                x => x.UseSqlServer(Configuration.GetConnectionString("ScrewIt"))
+                );
+
+            //register services
             services.AddControllersWithViews();
+
+            //register repositories
+            services.AddTransient<IDimensionsRepository, DimensionsRepository>();
+            services.AddTransient<IOrdersRepository, OrdersRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
