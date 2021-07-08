@@ -1,0 +1,291 @@
+﻿@model ScrewIt.ViewModels.OrderCreateModel
+
+@{
+    ViewBag.Title = "Create-Order";
+}
+
+<h1>Dimensions List </h1>
+
+<form asp-controller="Orders" asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label class="control-label" asp-for="Material">Material</label>
+        <input type="text" asp-for="Material" class="form-control" required />
+        <span asp-validation-for="Material" class="text-danger"></span>
+    </div>
+
+</form>
+
+<table class="table table-dark">
+    <thead>
+        <tr class="text-center">
+            <th scope="col" rowspan="2">No.</th>
+            <th scope="col" rowspan="2">1st Dimension</th>
+            <th scope="col" rowspan="2">2nd Dimension</th>
+            <th scope="col" rowspan="2">Quantity</th>
+            <th scope="col" rowspan="2">Rotation</th>
+            <th scope="col" colspan="2">1st Dimension</th>
+            <th scope="col" colspan="2">2nd Dimension</th>
+            <th scope="col" rowspan="2">Additional</th>
+            <th scope="col" rowspan="2"></th>
+        </tr>
+        <tr>
+            <th scope="col">1st Edge</th>
+            <th scope="col">2nd Edge</th>
+            <th scope="col">1st Edge</th>
+            <th scope="col">2nd Edge</th>
+        </tr>
+    </thead>
+    <tbody id="dimensionList">
+        <tr class="Adding" onkeydown="if(event.keyCode==13) addDimension()">
+            <th id="number">1</th>
+            <td id="FirstDimension"><input type="text" class="form-control" required /></td>
+            <td id="SecondDimension"><input type="text" class="form-control" required /></td>
+            <td id="Quantity"><input type="text" class="form-control" required /></td>
+            <td id="Rotation"><input type="text" class="form-control" /></td>
+            <td id="FirstDimensionFE"><input type="text" class="form-control" /></td>
+            <td id="FirstDimensionSE"><input type="text" class="form-control" /></td>
+            <td id="SecondDimensionFE"><input type="text" class="form-control" /></td>
+            <td id="SecondDimensionSE"><input type="text" class="form-control" /></td>
+            <td id="Additional"><input type="text" class="form-control" /></td>
+            <td><button class="btn btn-success" onclick="addDimension()">Add</button></td>
+        </tr>
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script>
+        var nextId = "";
+
+        function addDimension() {
+            var dimensionList = document.getElementById("dimensionList");
+
+            var rowToAppend = document.createElement("tr");
+            var colOneToAppend = document.createElement("th");
+
+            var number = parseInt(document.getElementById("number").innerHTML);
+
+
+            var currentId = "";
+            if (number == 1) {
+                colOneToAppend.innerHTML = 1;
+                currentId = 1;
+                nextId = number + 1;
+            } else {
+                colOneToAppend.innerHTML = number;
+                nextId = number + 1;
+                currentId = number;
+            }
+
+
+            var firstDimensionToAppend = document.createElement("td");
+            var firstDimension = document.getElementById("FirstDimension").firstChild.value;
+            firstDimensionToAppend.innerHTML = firstDimension;
+
+            var secondDimensionToAppend = document.createElement("td");
+            var secondDimension = document.getElementById("SecondDimension").firstChild.value;
+            secondDimensionToAppend.innerHTML = secondDimension;
+
+            var quantityToAppend = document.createElement("td");
+            var quantity = document.getElementById("Quantity").firstChild.value;
+            quantityToAppend.innerHTML = quantity;
+
+            var rotationToAppend = document.createElement("td");
+            var rotation = document.getElementById("Rotation").firstChild.value;
+            rotationToAppend.innerHTML = rotation;
+
+            var firstDimensionFEToAppend = document.createElement("td");
+            var firstDimensionFE = document.getElementById("FirstDimensionFE").firstChild.value;
+            firstDimensionFEToAppend.innerHTML = firstDimensionFE;
+
+            var firstDimensionSEToAppend = document.createElement("td");
+            var firstDimensionSE = document.getElementById("FirstDimensionSE").firstChild.value;
+            firstDimensionSEToAppend.innerHTML = firstDimensionSE;
+
+            var secondDimensionFEToAppend = document.createElement("td");
+            var secondDimensionFE = document.getElementById("SecondDimensionFE").firstChild.value;
+            secondDimensionFEToAppend.innerHTML = secondDimensionFE;
+
+            var secondDimensionSEToAppend = document.createElement("td");
+            var secondDimensionSE = document.getElementById("SecondDimensionSE").firstChild.value;
+            secondDimensionSEToAppend.innerHTML = secondDimensionSE;
+
+            var additionalToAppend = document.createElement("td");
+            var additional = document.getElementById("Additional").firstChild.value;
+            additionalToAppend.innerHTML = additional;
+
+            var editToAppend = document.createElement("td");
+            var buttonGroup = document.createElement("div");
+            buttonGroup.classList = ("btn-group");
+            buttonGroup.setAttribute("role", "group");
+            var editButton = document.createElement("button");
+            editButton.classList = ("btn btn-warning");
+            editButton.innerHTML = "Edit";
+            editButton.setAttribute("type", "button");
+            //editButton.onclick = function () { console.log(JSON.parse(localStorage.getItem(number))) };
+            editButton.onclick = function () { editDimension(number) };
+            var deleteButton = document.createElement("button");
+            deleteButton.classList = ("btn btn-danger");
+            deleteButton.innerHTML = "Delete";
+            deleteButton.setAttribute("type", "button");
+            deleteButton.onclick = function () { alert('delete clicked'); };
+
+            buttonGroup.appendChild(editButton);
+            buttonGroup.appendChild(deleteButton);
+            editToAppend.appendChild(buttonGroup);
+
+            rowToAppend.appendChild(colOneToAppend);
+            rowToAppend.appendChild(firstDimensionToAppend);
+            rowToAppend.appendChild(secondDimensionToAppend);
+            rowToAppend.appendChild(quantityToAppend);
+            rowToAppend.appendChild(rotationToAppend);
+            rowToAppend.appendChild(firstDimensionFEToAppend);
+            rowToAppend.appendChild(firstDimensionSEToAppend);
+            rowToAppend.appendChild(secondDimensionFEToAppend);
+            rowToAppend.appendChild(secondDimensionSEToAppend);
+            rowToAppend.appendChild(additionalToAppend);
+            rowToAppend.appendChild(editToAppend);
+
+            rowToAppend.id = number;
+
+            dimensionList.append(rowToAppend);
+
+            var dimension = {
+                "FirstDimension": firstDimension,
+                "SecondDimension": secondDimension,
+                "Quantity": quantity,
+                "Rotation": rotation,
+                "FirstDimensionFE": firstDimensionFE,
+                "FirstDimensionSE": firstDimensionSE,
+                "SecondDimensionFE": secondDimensionFE,
+                "SecondDimensionSE": secondDimensionSE,
+                "Additional": additional,
+            };
+
+            localStorage.setItem(number, JSON.stringify(dimension));
+
+            clearInserDimension();
+
+            addInsertDimension(nextId);
+
+        }
+
+        function clearInserDimension() {
+            var insertDimension = document.getElementsByClassName("Adding");
+            for (let i = 0; i < insertDimension.length; i++) {
+                insertDimension[i].innerHTML = null;
+            }
+        }
+
+        function addInsertDimension(id) {
+            var dimensionList = document.getElementById("dimensionList");
+
+            var rowToAppend = document.createElement("tr");
+            rowToAppend.setAttribute("class", "Adding");
+            rowToAppend.setAttribute("onkeydown", "if(event.keyCode==13) addDimension()");
+
+            var colToAppend = document.createElement("th");
+            colToAppend.setAttribute("id", "number");
+            colToAppend.innerHTML = id;
+
+            rowToAppend.appendChild(colToAppend);
+
+            rowToAppend.innerHTML +=
+                '<td id="FirstDimension">' + '<input type="text" class="form-control" required />' +
+                '<td id="SecondDimension"><input type="text" class="form-control" required /></td>' +
+                '<td id="Quantity"><input type="text" class="form-control" required /></td>' +
+                '<td id="Rotation"><input type="text" class="form-control"  /></td>' +
+                '<td id="FirstDimensionFE"><input type="text" class="form-control"  /></td>' +
+                '<td id="FirstDimensionSE"><input type="text" class="form-control"  /></td>' +
+                '<td id="SecondDimensionFE"><input type="text" class="form-control"  /></td>' +
+                '<td id="SecondDimensionSE"><input type="text" class="form-control"  /></td>' +
+                '<td id="Additional"><input type="text" class="form-control"  /></td>' +
+                '</td>' + '<td>' + '<button class="btn btn-success" onclick="addDimension()">Add</button>' + '</td>';
+
+            dimensionList.append(rowToAppend);
+        }
+
+        function editDimension(id) {
+            var dimensionForEdit = JSON.parse(localStorage.getItem(id));
+
+            var rowForEdit = document.getElementById(id);
+
+            var colToAppend = document.createElement("th");
+            colToAppend.setAttribute("id", "editNumber");
+            colToAppend.innerHTML = id;
+
+            rowForEdit.innerHTML = null;
+
+            rowForEdit.appendChild(colToAppend);
+
+            rowForEdit.innerHTML +=
+                '<td id="FirstDimension">' + '<input type="text" class="form-control" required value=' + dimensionForEdit.FirstDimension + ' />' +
+                '<td id="SecondDimension"><input type="text" class="form-control" required value=' + dimensionForEdit.SecondDimension + ' /></td>' +
+                '<td id="Quantity"><input type="text" class="form-control" required value=' + dimensionForEdit.Quantity + ' /></td>' +
+                '<td id="Rotation"><input type="text" class="form-control" value=' + dimensionForEdit.Rotation + '  /></td>' +
+                '<td id="FirstDimensionFE"><input type="text" class="form-control"  value=' + dimensionForEdit.FirstDimensionFE + ' /></td>' +
+                '<td id="FirstDimensionSE"><input type="text" class="form-control"  value=' + dimensionForEdit.FirstDimensionSE + ' /></td>' +
+                '<td id="SecondDimensionFE"><input type="text" class="form-control"  value=' + dimensionForEdit.SecondDimensionFE + ' /></td>' +
+                '<td id="SecondDimensionSE"><input type="text" class="form-control" value=' + dimensionForEdit.SecondDimensionSE + '  /></td>' +
+                '<td id="Additional"><input type="text" class="form-control"  value=' + dimensionForEdit.Additional + ' /></td>' +
+                '</td>' + '<td>' + '<button class="btn btn-primary" onclick="saveEditedDimension(' + id + ')">Edit</button>' + '</td>';
+
+
+            clearInserDimension();
+        }
+
+        function saveEditedDimension(id) {
+
+            var dimension = {
+                "FirstDimension": document.getElementById("FirstDimension").firstChild.value,
+                "SecondDimension": document.getElementById("SecondDimension").firstChild.value,
+                "Quantity": document.getElementById("Quantity").firstChild.value,
+                "Rotation": document.getElementById("Rotation").firstChild.value,
+                "FirstDimensionFE": document.getElementById("FirstDimensionFE").firstChild.value,
+                "FirstDimensionSE": document.getElementById("FirstDimensionSE").firstChild.value,
+                "SecondDimensionFE": document.getElementById("SecondDimensionFE").firstChild.value,
+                "SecondDimensionSE": document.getElementById("SecondDimensionSE").firstChild.value,
+                "Additional": document.getElementById("Additional").firstChild.value,
+            };
+
+            localStorage.setItem(id, JSON.stringify(dimension));
+
+            updateEditRow(id);
+
+        }
+
+        function updateEditRow(id) {
+            var dimensionForEdit = JSON.parse(localStorage.getItem(id));
+
+            var rowForEdit = document.getElementById(id);
+
+            var colToAppend = document.createElement("th");
+            colToAppend.setAttribute("id", "editNumber");
+            colToAppend.innerHTML = id;
+
+            rowForEdit.innerHTML = null;
+
+            rowForEdit.appendChild(colToAppend);
+
+            rowForEdit.innerHTML +=
+                '<td> ' + dimensionForEdit.FirstDimension.replace("/","") + ' </td>' +
+                '<td> ' + dimensionForEdit.SecondDimension.replace("/","")  + ' </td>' +
+                '<td> ' + dimensionForEdit.Quantity.replace("/","")  + ' </td>' +
+                '<td> ' + dimensionForEdit.Rotation.replace("/","")  + ' </td>' +
+                '<td> ' + dimensionForEdit.FirstDimensionFE.replace("/","")  + ' </td>' +
+                '<td> ' + dimensionForEdit.FirstDimensionSE.replace("/","")  + ' </td>' +
+                '<td> ' + dimensionForEdit.SecondDimensionFE.replace("/","")  + ' </td>' +
+                '<td> ' + dimensionForEdit.SecondDimensionSE.replace("/","")  + ' </td>' +
+                '<td> ' + dimensionForEdit.Additional.replace("/","")  + ' </td>' +
+                '<td>' + '<div class="btn-group" role="group">' +
+                '<button class="btn btn-warning" type="button" onclick="editDimension(' + id + ')">Edit</button>' + 
+                '<button class="btn btn-danger" type="button" onclick="">Delete</button>' + 
+                '</div>' + '</td>';
+
+            addInsertDimension(nextId);
+        }
+
+    </script>
+}
+

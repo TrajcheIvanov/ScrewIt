@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ScrewIt.Repositories;
 using ScrewIt.Repositories.Interfaces;
+using ScrewIt.Services;
+using ScrewIt.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +35,9 @@ namespace ScrewIt
 
             //register services
             services.AddControllersWithViews();
+
+            services.AddTransient<IDimensionsService, DimensionsService>();
+            services.AddTransient<IOrdersService, OrdersService>();
 
             //register repositories
             services.AddTransient<IDimensionsRepository, DimensionsRepository>();
@@ -63,7 +68,7 @@ namespace ScrewIt
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Orders}/{action=Create}/{id?}");
             });
         }
     }

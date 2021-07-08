@@ -9,9 +9,4 @@
     <ProjectReference Include="..\ScrewIt.Repositories\ScrewIt.Repositories.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DtoModels\" />
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
 </Project>
