@@ -29,6 +29,7 @@
             <th scope="col" rowspan="2">Additional</th>
             <th scope="col" rowspan="2"></th>
         </tr>
+        
         <tr>
             <th scope="col">1st Edge</th>
             <th scope="col">2nd Edge</th>
@@ -38,7 +39,7 @@
     </thead>
     <tbody id="dimensionList">
         <tr class="Adding" onkeydown="if(event.keyCode==13) addDimension()">
-            <th id="number">1</th>
+            <th id="number"></th>
             <td id="FirstDimension"><input type="text" class="form-control" required /></td>
             <td id="SecondDimension"><input type="text" class="form-control" required /></td>
             <td id="Quantity"><input type="text" class="form-control" required /></td>
@@ -56,7 +57,14 @@
 
 @section Scripts{
     <script>
-        var nextId = "";
+        var nextId = 1;
+
+        if (localStorage["nextId"] == undefined) {
+            nextId = 1;
+        } else {
+            nextId = parseInt(localStorage.getItem("nextId"));
+        }
+
 
         function addDimension() {
             var dimensionList = document.getElementById("dimensionList");
@@ -64,21 +72,11 @@
             var rowToAppend = document.createElement("tr");
             var colOneToAppend = document.createElement("th");
 
-            var number = parseInt(document.getElementById("number").innerHTML);
+            var currentId = nextId;
+            colOneToAppend.innerHTML = currentId;
+            nextId += 1;
 
-
-            var currentId = "";
-            if (number == 1) {
-                colOneToAppend.innerHTML = 1;
-                currentId = 1;
-                nextId = number + 1;
-            } else {
-                colOneToAppend.innerHTML = number;
-                nextId = number + 1;
-                currentId = number;
-            }
-
-
+            
             var firstDimensionToAppend = document.createElement("td");
             var firstDimension = document.getElementById("FirstDimension").firstChild.value;
             firstDimensionToAppend.innerHTML = firstDimension;
@@ -124,12 +122,12 @@
             editButton.innerHTML = "Edit";
             editButton.setAttribute("type", "button");
             //editButton.onclick = function () { console.log(JSON.parse(localStorage.getItem(number))) };
-            editButton.onclick = function () { editDimension(number) };
+            editButton.onclick = function () { editDimension(currentId) };
             var deleteButton = document.createElement("button");
             deleteButton.classList = ("btn btn-danger");
             deleteButton.innerHTML = "Delete";
             deleteButton.setAttribute("type", "button");
-            deleteButton.onclick = function () { alert('delete clicked'); };
+            deleteButton.onclick = function () { deleteDimension(currentId) };
 
             buttonGroup.appendChild(editButton);
             buttonGroup.appendChild(deleteButton);
@@ -147,7 +145,7 @@
             rowToAppend.appendChild(additionalToAppend);
             rowToAppend.appendChild(editToAppend);
 
-            rowToAppend.id = number;
+            rowToAppend.id = currentId;
 
             dimensionList.append(rowToAppend);
 
@@ -163,11 +161,12 @@
                 "Additional": additional,
             };
 
-            localStorage.setItem(number, JSON.stringify(dimension));
+            localStorage.setItem(nextId - 1, JSON.stringify(dimension));
+            localStorage.setItem("nextId", nextId);
 
             clearInserDimension();
 
-            addInsertDimension(nextId);
+            addInsertDimension(localStorage.length);
 
         }
 
@@ -186,8 +185,8 @@
             rowToAppend.setAttribute("onkeydown", "if(event.keyCode==13) addDimension()");
 
             var colToAppend = document.createElement("th");
-            colToAppend.setAttribute("id", "number");
-            colToAppend.innerHTML = id;
+            colToAppend.setAttribute("id", nextId);
+            colToAppend.innerHTML = nextId;
 
             rowToAppend.appendChild(colToAppend);
 
@@ -229,7 +228,7 @@
                 '<td id="SecondDimensionFE"><input type="text" class="form-control"  value=' + dimensionForEdit.SecondDimensionFE + ' /></td>' +
                 '<td id="SecondDimensionSE"><input type="text" class="form-control" value=' + dimensionForEdit.SecondDimensionSE + '  /></td>' +
                 '<td id="Additional"><input type="text" class="form-control"  value=' + dimensionForEdit.Additional + ' /></td>' +
-                '</td>' + '<td>' + '<button class="btn btn-primary" onclick="saveEditedDimension(' + id + ')">Edit</button>' + '</td>';
+                '</td>' + '<td>' + '<button class="btn btn-primary" onclick="saveEditedDimension(' + id + ')">Save</button>' + '</td>';
 
 
             clearInserDimension();
@@ -280,10 +279,84 @@
                 '<td> ' + dimensionForEdit.Additional.replace("/","")  + ' </td>' +
                 '<td>' + '<div class="btn-group" role="group">' +
                 '<button class="btn btn-warning" type="button" onclick="editDimension(' + id + ')">Edit</button>' + 
-                '<button class="btn btn-danger" type="button" onclick="">Delete</button>' + 
+                '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + id + ')">Delete</button>' + 
                 '</div>' + '</td>';
 
             addInsertDimension(nextId);
+        }
+
+        function deleteDimension(id) {
+
+            var x = confirm("Are you sure you want to delete?");
+
+            if (x) {
+                localStorage.removeItem(id);
+                var rowForEdit = document.getElementById(id);
+                rowForEdit.innerHTML = null;
+                console.log("dimensions with id: " + id + " was removed")
+            } else {
+                console.log("dimensions with id: " + id + " was not removed")
+            }
+
+        }
+
+        window.onload = function () {
+            console.log("page was loaded");
+
+            
+
+            var dimensionList = document.getElementById("dimensionList");
+
+            if (localStorage.length > 0) {
+                console.log("local storage is not empty");
+
+
+                //for (let i = 0; i <= parseInt(localStorage.getItem("nextId")); i++)
+                for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--){
+                   
+                    console.log("i = " +  i)
+                    var KeyName = window.localStorage.key(i);
+                    console.log(KeyName);
+                    var dimensionForEdit = JSON.parse(localStorage.getItem(i));
+
+
+                    if (i == parseInt(localStorage.getItem("nextId")) || localStorage[i] == undefined) {
+                        continue;
+                    } else {
+                        var rowForEdit = document.createElement("tr");
+                        rowForEdit.setAttribute("id", i);
+
+                        var colToAppend = document.createElement("th");
+                        colToAppend.setAttribute("id", i);
+                        colToAppend.innerHTML = i;
+
+                        rowForEdit.appendChild(colToAppend);
+
+                        rowForEdit.innerHTML +=
+                            '<td> ' + dimensionForEdit.FirstDimension.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.SecondDimension.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.Quantity.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.Rotation.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.FirstDimensionFE.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.FirstDimensionSE.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.SecondDimensionFE.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.SecondDimensionSE.replace("/", "") + ' </td>' +
+                            '<td> ' + dimensionForEdit.Additional.replace("/", "") + ' </td>' +
+                            '<td>' + '<div class="btn-group" role="group">' +
+                            '<button class="btn btn-warning" type="button" onclick="editDimension(' + i + ')">Edit</button>' +
+                            '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + i + ')">Delete</button>' +
+                            '</div>' + '</td>';
+
+
+                        dimensionList.prepend(rowForEdit);
+                    }
+
+                    
+                }
+
+            } else {
+                console.log("local storage is empty");
+            }
         }
 
     </script>
