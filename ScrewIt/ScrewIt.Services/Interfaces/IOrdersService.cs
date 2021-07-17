@@ -9,5 +9,6 @@ namespace ScrewIt.Services.Interfaces
     public interface IOrdersService
     {
         AddOrderResponse CreateOrder(Order domainModel);
+        Order GetOrderById(int orderId);
     }
 }

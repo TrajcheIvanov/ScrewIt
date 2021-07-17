@@ -15,20 +15,29 @@ namespace ScrewIt.Controllers
 
         public DimensionController(IDimensionsService dimensionsService)
         {
-            dimensionsService = _dimensionsService;
+            _dimensionsService = dimensionsService;
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] DimensionCreateRequestModel dimensionCreateModel)
+        public IActionResult Create([FromBody]DimensionCreateRequestModel dimensionCreateModel)
         {
             if (ModelState.IsValid)
             {
                 var domainModel = dimensionCreateModel.ToDimensionModel();
+                var response = _dimensionsService.CreateDimension(domainModel);
 
+                if (response.IsSuccessful)
+                {
+                    return Ok(new { Message = response.Message });
+                }
+                else
+                {
+                    return BadRequest(new { Message = response.Message });
+                }
 
             }
 
-            return Ok();
+            return BadRequest(new { Message = "Oops! Something went wrong" });
         }
     }
 }

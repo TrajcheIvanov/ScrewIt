@@ -35,6 +35,11 @@ namespace ScrewIt.Services
 
             return response;
         }
+
+        public Order GetOrderById(int orderId)
+        {
+            return _ordersRepository.GetById(orderId);
+        }
     }
 }
 

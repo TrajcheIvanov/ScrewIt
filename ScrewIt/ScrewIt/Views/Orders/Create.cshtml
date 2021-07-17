@@ -405,8 +405,8 @@
                         materialInput.value = "";
                         usernameInput.value = "";
                         console.log(response.data.id);
-                        var dimensionsToPost = dimensionsArrayForPost(response.data.id);
-                        console.log(dimensionsToPost);
+                        let dimensionsToSend = dimensionsArrayForPost(response.data.id);
+                        sendLocalStorageDimensionToServer(dimensionsToSend);
                         clearDimensionList(); 
 
                     })
@@ -420,6 +420,17 @@
 
         }
 
+        function sendLocalStorageDimensionToServer(dimensionsToSend) {
+            axios
+                .all(dimensionsToSend)
+                .then(axios.spread((...responses) => {
+                    responses.forEach(res => console.log('Success'))
+                    console.log('submitted all axios calls');
+                }))
+                .catch(error => { })
+        }
+
+
         function dimensionsArrayForPost(orderId) {
             let axiosArray = []
 
@@ -431,21 +442,52 @@
                     continue;
                 } else {
 
+                    var postData = {
+                        FirstDimension: parseInt(dimensionForEdit.FirstDimension),
+                        SecondDimension: parseInt(dimensionForEdit.SecondDimension),
+                        Quantity: parseInt(dimensionForEdit.Quantity),
+                        Rotation: false,
+                        FirstDimFirstEdge: 0,
+                        FirstDimSecondEdge: 0,
+                        SecondDimFirstEdge: 0,
+                        SecondDimSecondEdge: 0,
+                        AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
+                        OrderId: orderId
+                    }
+
+                    var firstFirst = parseInt(dimensionForEdit.FirstDimensionFE);
+                    if (!isNaN(firstFirst)) {
+                        postData.FirstDimFirstEdge = firstFirst;
+                    }
+
+                    var firstSecond = parseInt(dimensionForEdit.FirstDimensionSE);
+                    if (!isNaN(firstSecond)) {
+                        postData.FirstDimSecondEdge = firstSecond;
+                    }
+
+                    var secondFirst = parseInt(dimensionForEdit.SecondDimensionFE);
+                    if (!isNaN(secondFirst)) {
+                        postData.SecondDimFirstEdge = secondFirst;
+                    }
+
+                    var secondSecond = parseInt(dimensionForEdit.SecondDimensionSE);
+                    if (!isNaN(secondSecond)) {
+                        postData.SecondDimSecondEdge = secondSecond;
+                    }
+
+                    var toRotate = parseInt(dimensionForEdit.Rotation);
+                    if (toRotate == 1) {
+                        postData.Rotation = true;
+                    }
+
+                    let url = "https://localhost:44314/Dimension/Create";
+
+                    //let newPromise = axios.post(url, postData);
+
                     let newPromise = axios({
                         method: 'post',
                         url: "https://localhost:44314/Dimension/Create",
-                        data: {
-                            FirstDimension: dimensionForEdit.FirstDimension.replace("/", ""),
-                            SecondDimension: dimensionForEdit.SecondDimension.replace("/", ""),
-                            Quantity: dimensionForEdit.Quantity.replace("/", ""),
-                            Rotation: dimensionForEdit.Rotation.replace("/", ""),
-                            FirstDimFirstEdge: dimensionForEdit.FirstDimensionFE.replace("/", ""),
-                            FirstDimSecondEdge: dimensionForEdit.FirstDimensionSE.replace("/", ""),
-                            SecondDimFirstEdge: dimensionForEdit.SecondDimensionFE.replace("/", ""),
-                            SecondDimSecondEdge: dimensionForEdit.SecondDimensionSE.replace("/", ""),
-                            AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
-                            OrderId: orderId
-                        }
+                        data: postData
                     })
 
                     axiosArray.push(newPromise);
@@ -455,6 +497,63 @@
 
 
             return axiosArray;
+        }
+
+        function testDimensionPost() {
+            var dimensionForEdit = JSON.parse(localStorage.getItem("1"));
+
+
+            var postData = {
+                FirstDimension: parseInt(dimensionForEdit.FirstDimension),
+                SecondDimension: parseInt(dimensionForEdit.SecondDimension),
+                Quantity: parseInt(dimensionForEdit.Quantity),
+                Rotation: false,
+                FirstDimFirstEdge: 0,
+                FirstDimSecondEdge: 0,
+                SecondDimFirstEdge: 0,
+                SecondDimSecondEdge: 0,
+                AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
+                OrderId: 5
+            }
+
+            var firstFirst = parseInt(dimensionForEdit.FirstDimensionFE);
+            if (!isNaN(firstFirst)) {
+                postData.FirstDimFirstEdge = firstFirst;
+            }
+
+            var firstSecond = parseInt(dimensionForEdit.FirstDimensionSE);
+            if (!isNaN(firstSecond)) {
+                postData.FirstDimSecondEdge = firstSecond;
+            }
+
+            var secondFirst = parseInt(dimensionForEdit.SecondDimensionFE);
+            if (!isNaN(secondFirst)) {
+                postData.SecondDimFirstEdge = secondFirst;
+            }
+
+            var secondSecond = parseInt(dimensionForEdit.SecondDimensionSE);
+            if (!isNaN(secondSecond)) {
+                postData.SecondDimSecondEdge = secondSecond;
+            }
+
+            var toRotate = parseInt(dimensionForEdit.Rotation);
+            if (toRotate == 1) {
+                postData.Rotation = true;
+            }
+
+            console.log(postData);
+
+            var url = "https://localhost:44314/Dimension/Create";
+
+            axios.post(url, postData)
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+
+            
         }
 
     </script>
