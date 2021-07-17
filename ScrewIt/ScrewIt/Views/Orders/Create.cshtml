@@ -15,6 +15,14 @@
     </div>
 
 </form>
+<div class="container">
+    <div class="row">
+        <div class="col p-3">
+            <button type="button" class="btn btn-outline-success btn-lg">Make order</button>
+            <button type="button" class="btn btn-outline-danger btn-lg" onclick="clearDimensionList()">Clear dimension list</button>
+        </div>
+    </div>
+</div>
 
 <table class="table table-dark">
     <thead>
@@ -55,6 +63,7 @@
 </table>
 
 
+
 @section Scripts{
     <script>
         var nextId = 1;
@@ -69,14 +78,16 @@
         function addDimension() {
             var dimensionList = document.getElementById("dimensionList");
 
-            var rowToAppend = document.createElement("tr");
-            var colOneToAppend = document.createElement("th");
-
             var currentId = nextId;
-            colOneToAppend.innerHTML = currentId;
             nextId += 1;
 
-            
+            var rowToAppend = document.createElement("tr");
+            rowToAppend.setAttribute("class", "Dimension");
+            rowToAppend.id = currentId;
+
+            var colOneToAppend = document.createElement("th");
+            colOneToAppend.innerHTML = currentId;
+           
             var firstDimensionToAppend = document.createElement("td");
             var firstDimension = document.getElementById("FirstDimension").firstChild.value;
             firstDimensionToAppend.innerHTML = firstDimension;
@@ -121,7 +132,6 @@
             editButton.classList = ("btn btn-warning");
             editButton.innerHTML = "Edit";
             editButton.setAttribute("type", "button");
-            //editButton.onclick = function () { console.log(JSON.parse(localStorage.getItem(number))) };
             editButton.onclick = function () { editDimension(currentId) };
             var deleteButton = document.createElement("button");
             deleteButton.classList = ("btn btn-danger");
@@ -145,7 +155,7 @@
             rowToAppend.appendChild(additionalToAppend);
             rowToAppend.appendChild(editToAppend);
 
-            rowToAppend.id = currentId;
+            
 
             dimensionList.append(rowToAppend);
 
@@ -191,7 +201,7 @@
             rowToAppend.appendChild(colToAppend);
 
             rowToAppend.innerHTML +=
-                '<td id="FirstDimension">' + '<input type="text" class="form-control" required />' +
+                '<td id="FirstDimension"><input type="text" class="form-control" required /> </td>' +
                 '<td id="SecondDimension"><input type="text" class="form-control" required /></td>' +
                 '<td id="Quantity"><input type="text" class="form-control" required /></td>' +
                 '<td id="Rotation"><input type="text" class="form-control"  /></td>' +
@@ -200,7 +210,7 @@
                 '<td id="SecondDimensionFE"><input type="text" class="form-control"  /></td>' +
                 '<td id="SecondDimensionSE"><input type="text" class="form-control"  /></td>' +
                 '<td id="Additional"><input type="text" class="form-control"  /></td>' +
-                '</td>' + '<td>' + '<button class="btn btn-success" onclick="addDimension()">Add</button>' + '</td>';
+                '<td>' + '<button class="btn btn-success" onclick="addDimension()">Add</button>' + '</td>';
 
             dimensionList.append(rowToAppend);
         }
@@ -251,7 +261,6 @@
             localStorage.setItem(id, JSON.stringify(dimension));
 
             updateEditRow(id);
-
         }
 
         function updateEditRow(id) {
@@ -260,7 +269,7 @@
             var rowForEdit = document.getElementById(id);
 
             var colToAppend = document.createElement("th");
-            colToAppend.setAttribute("id", "editNumber");
+            colToAppend.setAttribute("id", id);
             colToAppend.innerHTML = id;
 
             rowForEdit.innerHTML = null;
@@ -300,25 +309,35 @@
 
         }
 
+        function clearDimensionList() {
+            var x = confirm("Are you sure you want to clear dimension list?");
+
+            if (x) {
+                localStorage.clear();
+                var insertDimension = document.getElementsByClassName("Dimension");
+                for (let i = 0; i < insertDimension.length; i++) {
+                    insertDimension[i].innerHTML = null;
+                }
+                console.log("Dimension list cleared")
+            } else {
+                console.log("Dimension list NOT cleared")
+            }
+        }
+
         window.onload = function () {
             console.log("page was loaded");
-
-            
 
             var dimensionList = document.getElementById("dimensionList");
 
             if (localStorage.length > 0) {
                 console.log("local storage is not empty");
 
-
-                //for (let i = 0; i <= parseInt(localStorage.getItem("nextId")); i++)
                 for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--){
                    
                     console.log("i = " +  i)
                     var KeyName = window.localStorage.key(i);
                     console.log(KeyName);
                     var dimensionForEdit = JSON.parse(localStorage.getItem(i));
-
 
                     if (i == parseInt(localStorage.getItem("nextId")) || localStorage[i] == undefined) {
                         continue;
@@ -347,11 +366,9 @@
                             '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + i + ')">Delete</button>' +
                             '</div>' + '</td>';
 
-
                         dimensionList.prepend(rowForEdit);
                     }
 
-                    
                 }
 
             } else {
