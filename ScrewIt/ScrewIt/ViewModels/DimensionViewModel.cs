@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ScrewIt.ViewModels
 {
-    public class DimensionModel
+    public class DimensionViewModel
     {
         public int Id { get; set; }
 

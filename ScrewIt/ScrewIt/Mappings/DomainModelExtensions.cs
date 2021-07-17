@@ -9,19 +9,9 @@ namespace ScrewIt.Mappings
 {
     public static class DomainModelExtensions
     {
-        public static OrderCreateModel ToOrderCreateModel(this Order order)
+        public static DimensionViewModel ToDimensionViewModel(this Dimension dimension)
         {
-            return new OrderCreateModel()
-            {
-                Id = order.Id,
-                Username = order.Username,
-                Material = order.Material
-            };
-        }
-
-        public static DimensionModel ToDimensionModel(this Dimension dimension)
-        {
-            return new DimensionModel()
+            return new DimensionViewModel()
             {
                 Id = dimension.Id,
                 FirstDimension = dimension.FirstDimension,
@@ -36,6 +26,17 @@ namespace ScrewIt.Mappings
                 OrderId = dimension.OrderId,
             };
         }
+
+        public static OrderViewModel ToOrderViewModel(this Order order)
+        {
+            return new OrderViewModel()
+            {
+                Id = order.Id,
+                Username = order.Username,
+                Material = order.Material
+            };
+        }
     }
+
 }
 

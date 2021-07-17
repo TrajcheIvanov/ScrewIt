@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ScrewIt.Models
@@ -8,6 +9,8 @@ namespace ScrewIt.Models
     {
         public int Id { get; set; }
 
+        [Required]
+        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Username { get; set; }
 
         public DateTime DateCreated { get; set; }
@@ -20,6 +23,8 @@ namespace ScrewIt.Models
 
         public List<Dimension> Dimensions { get; set; }
 
+        [Required]
+        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Material { get; set; }
     }
 }

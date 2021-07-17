@@ -6,19 +6,31 @@
 
 <h1>Dimensions List </h1>
 
-<form asp-controller="Orders" asp-action="Create" method="post">
+@*<form asp-controller="Orders" asp-action="Create" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label class="control-label" asp-for="Material">Material</label>
-        <input type="text" asp-for="Material" class="form-control" required />
+        <input type="text" asp-for="Material" class="form-control" required placeholder="Please enter material" />
         <span asp-validation-for="Material" class="text-danger"></span>
     </div>
-
-</form>
+    <div class="form-group">
+        <label class="control-label" asp-for="Username">Username</label>
+        <input type="text" asp-for="Username" class="form-control" required placeholder="Please enter Username" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+</form>*@
 <div class="container">
     <div class="row">
-        <div class="col p-3">
-            <button type="button" class="btn btn-outline-success btn-lg">Make order</button>
+        <div class="col col-6">
+            <label class="control-label" asp-for="Material">Material</label>
+            <input type="text" asp-for="Material" class="form-control" required placeholder="Please enter material" id="Material"/>
+        </div>
+        <div class="col col-6">
+            <label class="control-label" asp-for="Username">Username</label>
+            <input type="text" asp-for="Username" class="form-control" required placeholder="Please enter Username" id="Username"/>
+        </div>
+        <div class="col p-3 d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-success btn-lg" onclick="makeOrder()">Make order</button>
             <button type="button" class="btn btn-outline-danger btn-lg" onclick="clearDimensionList()">Clear dimension list</button>
         </div>
     </div>
@@ -65,6 +77,7 @@
 
 
 @section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         var nextId = 1;
 
@@ -310,18 +323,12 @@
         }
 
         function clearDimensionList() {
-            var x = confirm("Are you sure you want to clear dimension list?");
-
-            if (x) {
                 localStorage.clear();
                 var insertDimension = document.getElementsByClassName("Dimension");
                 for (let i = 0; i < insertDimension.length; i++) {
                     insertDimension[i].innerHTML = null;
                 }
                 console.log("Dimension list cleared")
-            } else {
-                console.log("Dimension list NOT cleared")
-            }
         }
 
         window.onload = function () {
@@ -374,6 +381,80 @@
             } else {
                 console.log("local storage is empty");
             }
+        }
+
+        function makeOrder() {
+            var materialInput = document.getElementById("Material");
+            var material = materialInput.value;
+
+            var usernameInput = document.getElementById("Username");
+            var username = usernameInput.value;
+
+            console.log(`User: ${username} ordered the Material: ${material} `)
+
+            if (material != null && material.trim() != "" && username != null && username.trim() != "") {
+                var data = {
+                    Username: username,
+                    Material: material,
+                }
+
+                var url = "https://localhost:44314/Orders/Create";
+
+                axios.post(url, data)
+                    .then(function (response) {
+                        materialInput.value = "";
+                        usernameInput.value = "";
+                        console.log(response.data.id);
+                        var dimensionsToPost = dimensionsArrayForPost(response.data.id);
+                        console.log(dimensionsToPost);
+                        clearDimensionList(); 
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+
+            } else {
+                alert("Material & Username field must be filled");
+            }
+
+        }
+
+        function dimensionsArrayForPost(orderId) {
+            let axiosArray = []
+
+            for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--) {
+
+                var dimensionForEdit = JSON.parse(localStorage.getItem(i));
+
+                if (i == parseInt(localStorage.getItem("nextId")) || localStorage[i] == undefined) {
+                    continue;
+                } else {
+
+                    let newPromise = axios({
+                        method: 'post',
+                        url: "https://localhost:44314/Dimension/Create",
+                        data: {
+                            FirstDimension: dimensionForEdit.FirstDimension.replace("/", ""),
+                            SecondDimension: dimensionForEdit.SecondDimension.replace("/", ""),
+                            Quantity: dimensionForEdit.Quantity.replace("/", ""),
+                            Rotation: dimensionForEdit.Rotation.replace("/", ""),
+                            FirstDimFirstEdge: dimensionForEdit.FirstDimensionFE.replace("/", ""),
+                            FirstDimSecondEdge: dimensionForEdit.FirstDimensionSE.replace("/", ""),
+                            SecondDimFirstEdge: dimensionForEdit.SecondDimensionFE.replace("/", ""),
+                            SecondDimSecondEdge: dimensionForEdit.SecondDimensionSE.replace("/", ""),
+                            AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
+                            OrderId: orderId
+                        }
+                    })
+
+                    axiosArray.push(newPromise);
+                }
+
+            }
+
+
+            return axiosArray;
         }
 
     </script>
