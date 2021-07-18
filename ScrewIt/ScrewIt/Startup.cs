@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ScrewIt.Models;
 using ScrewIt.Repositories;
 using ScrewIt.Repositories.Interfaces;
 using ScrewIt.Services;
@@ -33,9 +35,15 @@ namespace ScrewIt
                 x => x.UseSqlServer(Configuration.GetConnectionString("ScrewIt"))
                 );
 
-            //register services
-            services.AddControllersWithViews();
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ScrewItDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
+            //register services
             services.AddTransient<IDimensionsService, DimensionsService>();
             services.AddTransient<IOrdersService, OrdersService>();
 
@@ -62,6 +70,7 @@ namespace ScrewIt
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -69,6 +78,7 @@ namespace ScrewIt
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Orders}/{action=Create}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

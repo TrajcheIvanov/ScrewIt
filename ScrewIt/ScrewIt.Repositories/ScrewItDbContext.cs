@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ScrewIt.Models;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace ScrewIt.Repositories
 {
-    public class ScrewItDbContext : DbContext
+    public class ScrewItDbContext : IdentityDbContext<ApplicationUser>
     {
 
         public ScrewItDbContext(DbContextOptions<ScrewItDbContext> options) : base (options)
