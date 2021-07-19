@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ScrewIt.ViewModels
 {
-    public class LoginViewModel
+    public class SignInViewModel
     {
         [Required]
         public string Email { get; set; }
@@ -14,6 +14,6 @@ namespace ScrewIt.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Display(Name = "Remember me?")]
-        public bool RemmberMe { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

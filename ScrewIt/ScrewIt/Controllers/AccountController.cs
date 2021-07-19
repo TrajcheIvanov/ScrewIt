@@ -26,16 +26,19 @@ namespace ScrewIt.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult SignIn()
         {
             return View();
         }
 
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignIn(SignInViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RemmberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Overview", "Home");
@@ -46,7 +49,8 @@ namespace ScrewIt.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Register()
+        [HttpGet]
+        public async Task<IActionResult> SignUp()
         {
             if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
             {
@@ -64,7 +68,8 @@ namespace ScrewIt.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -94,12 +99,12 @@ namespace ScrewIt.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> LogOff()
+        public async Task<IActionResult> SignOut()
         {
             var user = User;
 
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("SignIn", "Account");
         }
     }
 }

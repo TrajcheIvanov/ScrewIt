@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ScrewIt.Mappings;
 using ScrewIt.Services.Interfaces;
 using ScrewIt.ViewModels;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ScrewIt.Controllers
 {
+    [Authorize]
     public class DimensionController : Controller
     {
         private readonly IDimensionsService _dimensionsService;

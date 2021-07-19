@@ -77,7 +77,7 @@ namespace ScrewIt
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Orders}/{action=Create}/{id?}");
+                    pattern: "{controller=Home}/{action=Overview}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

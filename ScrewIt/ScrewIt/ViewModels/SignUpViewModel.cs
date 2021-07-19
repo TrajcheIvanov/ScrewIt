@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ScrewIt.ViewModels
 {
-    public class RegisterViewModel
+    public class SignUpViewModel
     {
         [Required]
         public string Name { get; set; }
@@ -27,8 +27,6 @@ namespace ScrewIt.ViewModels
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-        [Required]
-        [Display(Name = "Role Name")]
-        public string RoleName { get; set; }
+       
     }
 }

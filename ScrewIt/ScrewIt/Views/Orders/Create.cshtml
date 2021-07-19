@@ -4,39 +4,26 @@
     ViewBag.Title = "Create-Order";
 }
 
-<h1>Dimensions List </h1>
+<h1 class="text-white">Dimensions List </h1>
 
-@*<form asp-controller="Orders" asp-action="Create" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label class="control-label" asp-for="Material">Material</label>
-        <input type="text" asp-for="Material" class="form-control" required placeholder="Please enter material" />
-        <span asp-validation-for="Material" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label class="control-label" asp-for="Username">Username</label>
-        <input type="text" asp-for="Username" class="form-control" required placeholder="Please enter Username" />
-        <span asp-validation-for="Username" class="text-danger"></span>
-    </div>
-</form>*@
 <div class="container">
     <div class="row">
         <div class="col col-6">
-            <label class="control-label" asp-for="Material">Material</label>
+            <label class="control-label text-white" asp-for="Material">Material</label>
             <input type="text" asp-for="Material" class="form-control" required placeholder="Please enter material" id="Material"/>
         </div>
         <div class="col col-6">
-            <label class="control-label" asp-for="Username">Username</label>
+            <label class="control-label text-white" asp-for="Username">Username</label>
             <input type="text" asp-for="Username" class="form-control" required placeholder="Please enter Username" id="Username"/>
         </div>
         <div class="col p-3 d-flex justify-content-between">
-            <button type="button" class="btn btn-outline-success btn-lg" onclick="makeOrder()">Make order</button>
-            <button type="button" class="btn btn-outline-danger btn-lg" onclick="clearDimensionList()">Clear dimension list</button>
+            <button type="button" class="btn btn-success btn-lg" onclick="makeOrder()">Make order</button>
+            <button type="button" class="btn btn-danger btn-lg" onclick="clearDimensionList()">Clear dimension list</button>
         </div>
     </div>
 </div>
 
-<table class="table table-dark">
+<table class="table table-dark table-striped table-sm table-responsive">
     <thead>
         <tr class="text-center">
             <th scope="col" rowspan="2">No.</th>
@@ -350,6 +337,7 @@
                         continue;
                     } else {
                         var rowForEdit = document.createElement("tr");
+                        rowForEdit.setAttribute("class", "Dimension");
                         rowForEdit.setAttribute("id", i);
 
                         var colToAppend = document.createElement("th");
