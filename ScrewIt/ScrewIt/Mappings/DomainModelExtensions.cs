@@ -36,6 +36,19 @@ namespace ScrewIt.Mappings
                 Material = order.Material
             };
         }
+
+        public static UserViewModel ToViewModel(this ApplicationUser user, string roleName)
+        {
+            return new UserViewModel()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                RoleName = roleName,
+                PhoneNumber = user.PhoneNumber
+            };
+        }
     }
 
 }

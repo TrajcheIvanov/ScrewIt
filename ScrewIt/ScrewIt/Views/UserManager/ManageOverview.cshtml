@@ -1,0 +1,115 @@
+﻿@model IEnumerable<ScrewIt.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "ManageOverview";
+}
+
+
+<div class="container-fluid">
+    <div class="col col-md-10 offset-1">
+        <h1 class="text-white">Manage Users</h1>
+        <div class="row m-3">
+            <div class="input-group col col-4">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" id="btnGroupAddon">Search</div>
+                </div>
+                <input type="text" class="form-control" placeholder="Please enter Username" id="searchInput" onkeyup="updateUsersList()">
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-dark table-striped table-sm table-bordered table-responsive-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Surname)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.RoleName)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="usersList">
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                @user.Name
+                            </td>
+                            <td>
+                                @user.Surname
+                            </td>
+                            <td>
+                                @user.RoleName
+                            </td>
+                            <td>
+                                @user.PhoneNumber
+                            </td>
+                            <td>
+                                @user.Email
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a type="button" class="btn btn-warning" href="/UserManager/Edit/@user.Id">Edit</a>
+                                    <a type="button" class="btn btn-danger" href="/UserManager/Delete/@user.Id">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function updateUsersList() {
+            var searchInput = document.getElementById("searchInput");
+            var seachRequest = searchInput.value;
+            console.log(seachRequest);
+
+            var url = `https://localhost:44314/UserManager/getUsers?filterCriteria=${seachRequest}`;
+            console.log(url);
+
+            var usersList = document.getElementById("usersList");
+            usersList.innerHTML = "";
+
+
+            axios.get(url)
+                .then(function (response) {
+                    // handle success
+                    console.log(response);
+                    for (let i = 0; i < response.data.length; i++) {
+                        console.log(response.data[i]);
+                        
+
+                        var rowForAppend = document.createElement("tr");
+                        rowForAppend.setAttribute("class", "user");
+                        rowForAppend.setAttribute("id", response.data[i].id);
+
+                        rowForAppend.innerHTML =
+                            `<td>` + response.data[i].name + `</td>` +
+                            `<td>` + response.data[i].surname + `</td>` +
+                            `<td>` + response.data[i].roleName + `</td>` +
+                            `<td>` + response.data[i].phoneNumber + `</td>` +
+                            `<td>` + response.data[i].email + `</td>` +
+                            `<td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a type="button" class="btn btn-warning" href="/UserManager/Edit/` + response.data[i].id + `">Edit</a>
+                                    <a type="button" class="btn btn-danger" href="/UserManager/Delete/` + response.data[i].id + `">Delete</a>
+                                </div>
+                            </td>` 
+
+                        usersList.appendChild(rowForAppend);
+                    }
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+        }
+    </script>
+}
+
+
