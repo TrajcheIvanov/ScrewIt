@@ -1,0 +1,61 @@
+﻿@model ScrewIt.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid">
+    <div class="col-sm-4 offset-0">
+        <h1 class="text-white">Edit User</h1>
+            <form asp-action="Edit" asp-controller="UserManager" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group row">
+                    <label asp-for="Name" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                    <div class="col-md-7">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Surname" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                    <div class="col-md-7">
+                        <input asp-for="Surname" class="form-control" />
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="Email" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                    <div class="col-md-7">
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="PhoneNumber" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                    <div class="col-md-7">
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label asp-for="RoleName" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                    <div class="col-md-7">
+                        <select asp-for="RoleName"
+                                asp-items="@ScrewIt.Common.Helper.GetRolesForDropDown()"
+                                class="form-control"></select>
+                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <a asp-action="ManageOVerview" asp-controller="UserManager" class="font-weight-bold small btn btn-danger col-md-4 offset-md-3">Back to List</a>
+                    <input type="submit" value="Save" class="btn btn-success col-md-4 offset-md-1" />
+                </div>
+            </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

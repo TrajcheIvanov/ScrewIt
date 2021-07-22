@@ -8,6 +8,19 @@
 <div class="container-fluid">
     <div class="col col-md-10 offset-1">
         <h1 class="text-white">Manage Users</h1>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger col-md-6" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success col-md-6" role="alert">
+                @ViewBag.SuccessMessage
+            </div>
+        }
         <div class="row m-3">
             <div class="input-group col col-4">
                 <div class="input-group-prepend">
@@ -50,7 +63,7 @@
                             <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <a type="button" class="btn btn-warning" href="/UserManager/Edit/@user.Id">Edit</a>
-                                    <a type="button" class="btn btn-danger" href="/UserManager/Delete/@user.Id">Delete</a>
+                                    <a type="button" class="btn btn-danger" href="/UserManager/Delete/@user.Id" onclick="return confirm('Are you sure?')">Delete</a>
                                 </div>
                             </td>
                         </tr>
@@ -82,7 +95,7 @@
                     console.log(response);
                     for (let i = 0; i < response.data.length; i++) {
                         console.log(response.data[i]);
-                        
+
 
                         var rowForAppend = document.createElement("tr");
                         rowForAppend.setAttribute("class", "user");
@@ -95,11 +108,11 @@
                             `<td>` + response.data[i].phoneNumber + `</td>` +
                             `<td>` + response.data[i].email + `</td>` +
                             `<td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a type="button" class="btn btn-warning" href="/UserManager/Edit/` + response.data[i].id + `">Edit</a>
-                                    <a type="button" class="btn btn-danger" href="/UserManager/Delete/` + response.data[i].id + `">Delete</a>
-                                </div>
-                            </td>` 
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a type="button" class="btn btn-warning" href="/UserManager/Edit/` + response.data[i].id + `">Edit</a>
+                                        <a type="button" class="btn btn-danger" href="/UserManager/Delete/` + response.data[i].id + `">Delete</a>
+                                    </div>
+                                </td>`
 
                         usersList.appendChild(rowForAppend);
                     }
