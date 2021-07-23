@@ -49,6 +49,19 @@ namespace ScrewIt.Mappings
                 PhoneNumber = user.PhoneNumber
             };
         }
+
+        public static PanelViewModel ToViewModel(this Panel panel)
+        {
+            return new PanelViewModel()
+            {
+                Id = panel.Id,
+                Name = panel.Name,
+                Thickness = panel.Thickness,
+                Length = panel.Length,
+                Height = panel.Height,
+                Price = panel.Price
+            };
+        }
     }
 
 }

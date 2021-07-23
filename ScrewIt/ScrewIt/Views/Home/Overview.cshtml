@@ -1,5 +1,24 @@
-﻿@{
+﻿@model ScrewIt.ViewModels.UserViewModel
+
+@{
     ViewData["Title"] = "Overview";
 }
 
 <h1 class="text-white">Overview</h1>
+
+<h1 class="text-white">
+
+    @if (User.Identity.IsAuthenticated)
+    {
+       
+        <p>User is logged</p>
+        <p>@Model.Id</p>
+        <p>@Model.Name</p>
+        <p>@Model.PhoneNumber</p>
+        <p>@Model.RoleName</p>
+    }
+    else
+    {
+        <p>User is NOT logged</p>
+    }
+</h1>

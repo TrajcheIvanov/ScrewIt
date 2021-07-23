@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20210705192914_AddedDimensionsAndOrdersTables.cs" />
     <Compile Remove="Migrations\20210705192914_AddedDimensionsAndOrdersTables.Designer.cs" />
+    <Compile Remove="Migrations\20210723180740_AddPanelsTable.cs" />
+    <Compile Remove="Migrations\20210723180740_AddPanelsTable.Designer.cs" />
+    <Compile Remove="Migrations\20210723181535_AddPanelsTable.cs" />
+    <Compile Remove="Migrations\20210723181535_AddPanelsTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,10 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ScrewIt.Models\ScrewIt.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

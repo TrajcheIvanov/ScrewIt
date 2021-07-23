@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ScrewIt.ViewModels.UserViewModel>
 
 @{
-    ViewData["Title"] = "ManageOverview";
+    ViewData["Title"] = "ManageUsersOverview";
 }
 
 
@@ -110,7 +110,7 @@
                             `<td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <a type="button" class="btn btn-warning" href="/UserManager/Edit/` + response.data[i].id + `">Edit</a>
-                                        <a type="button" class="btn btn-danger" href="/UserManager/Delete/` + response.data[i].id + `">Delete</a>
+                                        <a type="button" class="btn btn-danger"  onclick="return confirm('Are you sure?')" href="/UserManager/Delete/` + response.data[i].id + `">Delete</a>
                                     </div>
                                 </td>`
 

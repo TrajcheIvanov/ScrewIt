@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScrewIt.Repositories;
 
 namespace ScrewIt.Repositories.Migrations
 {
     [DbContext(typeof(ScrewItDbContext))]
-    partial class ScrewItDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210722193929_updateOrderTable")]
+    partial class updateOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,9 +296,6 @@ namespace ScrewIt.Repositories.Migrations
                     b.Property<int>("OrderStatus")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PanelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -306,36 +305,7 @@ namespace ScrewIt.Repositories.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("PanelId");
-
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("ScrewIt.Models.Panel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Length")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Thickness")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Panels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -403,10 +373,6 @@ namespace ScrewIt.Repositories.Migrations
                     b.HasOne("ScrewIt.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("ScrewIt.Models.Panel", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("PanelId");
                 });
 #pragma warning restore 612, 618
         }

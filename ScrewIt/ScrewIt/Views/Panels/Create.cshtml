@@ -1,0 +1,53 @@
+﻿@model ScrewIt.ViewModels.PanelCreateModel
+
+@{
+    ViewData["Title"] = "CreateNewPanel";
+}
+
+<div class="container-fluid">
+    <div class="col-sm-4 offset-0">
+        <h1 class="text-white">Create New Panel</h1>
+        <form asp-action="Create" asp-controller="Panels" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="Name" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Thickness" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Thickness" class="form-control" />
+                    <span asp-validation-for="Thickness" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Length" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Length" class="form-control" />
+                    <span asp-validation-for="Length" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Height" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Height" class="form-control" />
+                    <span asp-validation-for="Height" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Price" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <a asp-action="ManageOverview" asp-controller="Panels" class="font-weight-bold small btn btn-danger col-md-4 offset-md-3">Back to List</a>
+                <input type="submit" value="Save" class="btn btn-success col-md-4 offset-md-1" />
+            </div>
+        </form>
+    </div>
+</div>

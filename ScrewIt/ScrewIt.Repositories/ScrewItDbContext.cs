@@ -17,5 +17,7 @@ namespace ScrewIt.Repositories
         public DbSet<Dimension> Dimensions { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Panel> Panels { get; set; }
     }
 }

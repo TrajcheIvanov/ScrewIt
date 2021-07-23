@@ -46,10 +46,12 @@ namespace ScrewIt
             //register services
             services.AddTransient<IDimensionsService, DimensionsService>();
             services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<IPanelsService, PanelsService>();
 
             //register repositories
             services.AddTransient<IDimensionsRepository, DimensionsRepository>();
             services.AddTransient<IOrdersRepository, OrdersRepository>();
+            services.AddTransient<IPanelsRepository, PanelsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

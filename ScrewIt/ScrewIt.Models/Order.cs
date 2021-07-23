@@ -11,7 +11,12 @@ namespace ScrewIt.Models
 
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 3)]
+
         public string Username { get; set; }
+
+        public string ApplicationUserId { get; set; }
+
+        public ApplicationUser User { get; set; }
 
         public DateTime DateCreated { get; set; }
 

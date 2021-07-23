@@ -34,5 +34,17 @@ namespace ScrewIt.Mappings
                 OrderId = dimension.OrderId,
             };
         }
+
+        public static Panel ToPanelModel(this PanelCreateModel panel)
+        {
+            return new Panel()
+            {
+                Name = panel.Name,
+                Thickness = panel.Thickness,
+                Length = panel.Length,
+                Height = panel.Height,
+                Price = panel.Price
+            };
+        }
     }
 }
