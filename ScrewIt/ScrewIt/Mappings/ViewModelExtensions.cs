@@ -46,5 +46,18 @@ namespace ScrewIt.Mappings
                 Price = panel.Price
             };
         }
+
+        public static Panel ToModel(this PanelViewModel panel)
+        {
+            return new Panel()
+            {
+                Id = panel.Id,
+                Name = panel.Name,
+                Thickness = panel.Thickness,
+                Length = panel.Length,
+                Height = panel.Height,
+                Price = panel.Price
+            };
+        }
     }
 }

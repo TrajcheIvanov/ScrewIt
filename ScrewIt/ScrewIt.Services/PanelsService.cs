@@ -36,6 +36,25 @@ namespace ScrewIt.Services
             return response;
         }
 
+        public StatusModel Delete(int id)
+        {
+            var response = new StatusModel();
+            var hotel = _panelsRepository.GetById(id);
+
+            if (hotel == null)
+            {
+                response.IsSuccessful = false;
+                response.Message = $"The Panel with id {id} was not found";
+            }
+            else
+            {
+                _panelsRepository.Delete(hotel);
+                response.Message = $"The Panel with Name {hotel.Name} was deleted";
+            }
+
+            return response;
+        }
+
         public List<Panel> GetAll()
         {
             return _panelsRepository.GetAll();
@@ -45,6 +64,32 @@ namespace ScrewIt.Services
         {
             return _panelsRepository.GetById(id);
         }
+
+        public StatusModel Update(Panel domainModel)
+        {
+            var response = new StatusModel();
+            var panelForUpdate = _panelsRepository.GetById(domainModel.Id);
+
+            if(panelForUpdate != null)
+            {
+                panelForUpdate.Name = domainModel.Name;
+                panelForUpdate.Thickness = domainModel.Thickness;
+                panelForUpdate.Length = domainModel.Length;
+                panelForUpdate.Height = domainModel.Height;
+                panelForUpdate.Price = domainModel.Price;
+
+                _panelsRepository.Update(panelForUpdate);
+                response.Message = $"The Panel with Name: {panelForUpdate.Name} was sucesfully edited ";
+            }
+            else
+            {
+                response.IsSuccessful = false;
+                response.Message = $"The Panel with id {domainModel.Id} was not found";
+            }
+
+            return response;
+        }
+
     }
 
 }

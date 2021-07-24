@@ -74,5 +74,43 @@ namespace ScrewIt.Controllers
             return RedirectToAction("ManageOverview", new { ErrorMessage = "Something went wrong... please try again" });
 
         }
+
+        public IActionResult Edit(PanelViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var domainModel = model.ToModel();
+                var response = _panelsService.Update(domainModel);
+
+                if (response.IsSuccessful)
+                {
+                    return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
+                }
+                else
+                {
+                    return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
+                }
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var response = _panelsService.Delete(id);
+
+            if (response.IsSuccessful)
+            {
+                return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
+            }
+            else
+            {
+                return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
+            }
+        }
     }
+
+
 }

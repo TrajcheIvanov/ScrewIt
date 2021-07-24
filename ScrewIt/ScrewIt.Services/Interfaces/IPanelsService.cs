@@ -11,5 +11,7 @@ namespace ScrewIt.Services.Interfaces
         StatusModel CreatePanel(Panel domainModel);
         List<Panel> GetAll();
         Panel GetById(int id);
+        StatusModel Update(Panel domainModel);
+        StatusModel Delete(int id);
     }
 }
