@@ -7,20 +7,41 @@
 <h1 class="text-white">Dimensions List </h1>
 
 <div class="container">
-    <div class="row">
-        <div class="col col-6">
-            <label class="control-label text-white" asp-for="Material">Material</label>
-            <input type="text" asp-for="Material" class="form-control" required placeholder="Please enter material" id="Material"/>
+    <form asp-action="Create" asp-controller="Orders" method="post">
+        <div class="row">
+            <div asp-validation-summary="All" class="text-danger"></div>
         </div>
-        <div class="col col-6">
-            <label class="control-label text-white" asp-for="Username">Username</label>
-            <input type="text" asp-for="Username" class="form-control" required placeholder="Please enter Username" id="Username"/>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <label class="control-label text-white" asp-for="Material">Material</label>
+                <input type="text" asp-for="Material" class="form-control" required placeholder="Please enter material" id="Material" />
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="control-label text-white" asp-for="Username">Username</label>
+                <input type="text" asp-for="Username" class="form-control" required placeholder="Please enter Username" id="Username" />
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="control-label text-white" asp-for="PanelId">Choose Panel</label>
+                <select class="form-control" asp-for="PanelId">
+                    @*<option value="0"> Please choose panel</option>*@
+                    @foreach (var item in ViewBag.Panels)
+                    {
+                        <option value=@item.Id> @item.Name -@item.Thickness mm-  @item.Length x @item.Height </option>
+                    }
+                </select>
+            </div>
         </div>
-        <div class="col p-3 d-flex justify-content-between">
-            <button type="button" class="btn btn-success btn-lg" onclick="makeOrder()">Make order</button>
-            <button type="button" class="btn btn-danger btn-lg" onclick="clearDimensionList()">Clear dimension list</button>
+        <div class="form-group row">
+            <input type="submit" value="SaveOrder" class="btn btn-warning col-md-4 offset-md-1" />
         </div>
-    </div>
+    </form>
+        <div class="row">
+            <div class="col p-3 d-md-flex justify-content-md-around">
+                <button type="button" class="btn btn-success btn-lg p-1" onclick="makeOrder()">Make order</button>
+                <button type="button" class="btn btn-danger btn-lg p-1" onclick="clearDimensionList()">Clear dimension list</button>
+            </div>
+        </div>
+   
 </div>
 
 <table class="table table-dark table-striped table-sm table-responsive">

@@ -34,6 +34,7 @@ namespace ScrewIt.Controllers
             {
                 var user = await _userManager.FindByIdAsync(id);
 
+                
                 var role = _db.UserRoles.FirstOrDefault(x => x.UserId == user.Id);
                 var roleName = _db.Roles.FirstOrDefault(x => x.Id == role.RoleId);
 

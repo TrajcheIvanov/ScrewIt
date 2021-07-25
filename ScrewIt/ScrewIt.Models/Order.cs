@@ -31,5 +31,8 @@ namespace ScrewIt.Models
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Material { get; set; }
+
+        public int PanelId { get; set; }
+        public Panel Panel { get; set; }
     }
 }

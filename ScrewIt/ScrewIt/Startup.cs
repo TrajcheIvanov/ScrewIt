@@ -40,6 +40,12 @@ namespace ScrewIt
                 .AddEntityFrameworkStores<ScrewItDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(x =>
+            {
+                x.ExpireTimeSpan = TimeSpan.FromDays(30);
+                x.LoginPath = "/Account/SignIn";
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 

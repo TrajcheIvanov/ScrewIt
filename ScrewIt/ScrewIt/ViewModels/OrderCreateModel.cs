@@ -15,6 +15,8 @@ namespace ScrewIt.ViewModels
         [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string Material { get; set; }
 
+        public int PanelId { get; set; }
+
 
     }
 }

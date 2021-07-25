@@ -25,6 +25,7 @@ namespace ScrewIt.Services
             {
                 Username = domainModel.Username,
                 Material = domainModel.Material,
+                PanelId = domainModel.PanelId,
                 DateCreated = DateTime.Now,
                 OrderStatus = OrderStatus.Pending
             };

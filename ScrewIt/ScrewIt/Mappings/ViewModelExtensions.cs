@@ -14,7 +14,8 @@ namespace ScrewIt.Mappings
             return new Order()
             {
                 Username = order.Username,
-                Material = order.Material
+                Material = order.Material,
+                PanelId = order.PanelId
             };
         }
 
