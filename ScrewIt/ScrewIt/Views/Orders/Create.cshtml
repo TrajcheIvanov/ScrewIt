@@ -7,23 +7,15 @@
 <h1 class="text-white">Dimensions List </h1>
 
 <div class="container">
-    <form asp-action="Create" asp-controller="Orders" method="post">
-        <div class="row">
-            <div asp-validation-summary="All" class="text-danger"></div>
-        </div>
         <div class="row">
             <div class="col-12 col-md-4">
-                <label class="control-label text-white" asp-for="Material">Material</label>
-                <input type="text" asp-for="Material" class="form-control" required placeholder="Please enter material" id="Material" />
-            </div>
-            <div class="col-12 col-md-4">
-                <label class="control-label text-white" asp-for="Username">Username</label>
-                <input type="text" asp-for="Username" class="form-control" required placeholder="Please enter Username" id="Username" />
+                <label class="control-label text-white" asp-for="OrderDescription">Order Description</label>
+                <input type="text" asp-for="OrderDescription" class="form-control" required placeholder="Please enter Order Description" id="OrderDescription" />
             </div>
             <div class="col-12 col-md-4">
                 <label class="control-label text-white" asp-for="PanelId">Choose Panel</label>
-                <select class="form-control" asp-for="PanelId">
-                    @*<option value="0"> Please choose panel</option>*@
+                <select class="form-control" asp-for="PanelId" id="PanelIdSelectInput">
+                    <option value="0"> Please choose panel</option>
                     @foreach (var item in ViewBag.Panels)
                     {
                         <option value=@item.Id> @item.Name -@item.Thickness mm-  @item.Length x @item.Height </option>
@@ -31,10 +23,6 @@
                 </select>
             </div>
         </div>
-        <div class="form-group row">
-            <input type="submit" value="SaveOrder" class="btn btn-warning col-md-4 offset-md-1" />
-        </div>
-    </form>
         <div class="row">
             <div class="col p-3 d-md-flex justify-content-md-around">
                 <button type="button" class="btn btn-success btn-lg p-1" onclick="makeOrder()">Make order</button>
@@ -108,7 +96,7 @@
 
             var colOneToAppend = document.createElement("th");
             colOneToAppend.innerHTML = currentId;
-           
+
             var firstDimensionToAppend = document.createElement("td");
             var firstDimension = document.getElementById("FirstDimension").firstChild.value;
             firstDimensionToAppend.innerHTML = firstDimension;
@@ -176,7 +164,7 @@
             rowToAppend.appendChild(additionalToAppend);
             rowToAppend.appendChild(editToAppend);
 
-            
+
 
             dimensionList.append(rowToAppend);
 
@@ -308,8 +296,8 @@
                 '<td> ' + dimensionForEdit.SecondDimensionSE.replace("/","")  + ' </td>' +
                 '<td> ' + dimensionForEdit.Additional.replace("/","")  + ' </td>' +
                 '<td>' + '<div class="btn-group" role="group">' +
-                '<button class="btn btn-warning" type="button" onclick="editDimension(' + id + ')">Edit</button>' + 
-                '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + id + ')">Delete</button>' + 
+                '<button class="btn btn-warning" type="button" onclick="editDimension(' + id + ')">Edit</button>' +
+                '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + id + ')">Delete</button>' +
                 '</div>' + '</td>';
 
             addInsertDimension(nextId);
@@ -348,7 +336,7 @@
                 console.log("local storage is not empty");
 
                 for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--){
-                   
+
                     console.log("i = " +  i)
                     var KeyName = window.localStorage.key(i);
                     console.log(KeyName);
@@ -393,30 +381,37 @@
         }
 
         function makeOrder() {
-            var materialInput = document.getElementById("Material");
-            var material = materialInput.value;
+            var orderDescriptionInput = document.getElementById("OrderDescription");
+            var orderDescription = orderDescriptionInput.value;
 
-            var usernameInput = document.getElementById("Username");
-            var username = usernameInput.value;
+            var panelIdSelectInput = document.getElementById("PanelIdSelectInput");
+            var panelId = panelIdSelectInput.value;
 
-            console.log(`User: ${username} ordered the Material: ${material} `)
+            @*var username = @User.Identity.Username;
+            var userId = @User.Identity.Id;*@
 
-            if (material != null && material.trim() != "" && username != null && username.trim() != "") {
+            var username = "aaaaa";
+            var userId = "bbbbb";
+
+                console.log(`User: ${username} made order with description: ${orderDescription} `)
+
+            if (orderDescription != null && orderDescription.trim() != "" && panelId != null && panelId != "0") {
                 var data = {
-                    Username: username,
-                    Material: material,
+                    UserId: userId,
+                    OrderDescription: orderDescription,
+                    PanelId: panelId
                 }
 
                 var url = "https://localhost:44314/Orders/Create";
 
                 axios.post(url, data)
                     .then(function (response) {
-                        materialInput.value = "";
-                        usernameInput.value = "";
+                        orderDescriptionInput.value = "";
+                        panelIdSelectInput.value = "";
                         console.log(response.data.id);
                         let dimensionsToSend = dimensionsArrayForPost(response.data.id);
                         sendLocalStorageDimensionToServer(dimensionsToSend);
-                        clearDimensionList(); 
+                        clearDimensionList();
 
                     })
                     .catch(function (error) {
@@ -562,7 +557,7 @@
                     console.log(error);
                 })
 
-            
+
         }
 
     </script>

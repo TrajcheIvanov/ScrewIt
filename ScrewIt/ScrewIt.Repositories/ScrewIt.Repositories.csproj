@@ -11,6 +11,10 @@
     <Compile Remove="Migrations\20210723180740_AddPanelsTable.Designer.cs" />
     <Compile Remove="Migrations\20210723181535_AddPanelsTable.cs" />
     <Compile Remove="Migrations\20210723181535_AddPanelsTable.Designer.cs" />
+    <Compile Remove="Migrations\20210726211839_AddedOrderDescription.cs" />
+    <Compile Remove="Migrations\20210726211839_AddedOrderDescription.Designer.cs" />
+    <Compile Remove="Migrations\20210726212150_AddedOrderDescription.cs" />
+    <Compile Remove="Migrations\20210726212150_AddedOrderDescription.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

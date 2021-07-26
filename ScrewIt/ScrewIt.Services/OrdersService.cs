@@ -23,8 +23,8 @@ namespace ScrewIt.Services
 
             var newOrder = new Order()
             {
-                Username = domainModel.Username,
-                Material = domainModel.Material,
+                UserId = domainModel.UserId,
+                OrderDescription = domainModel.OrderDescription,
                 PanelId = domainModel.PanelId,
                 DateCreated = DateTime.Now,
                 OrderStatus = OrderStatus.Pending

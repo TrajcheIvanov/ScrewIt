@@ -10,10 +10,10 @@ namespace ScrewIt.ViewModels
     {
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 3)]
-        public string Username { get; set; }
+        public string UserId { get; set; }
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 3)]
-        public string Material { get; set; }
+        public string OrderDescription { get; set; }
 
         public int PanelId { get; set; }
 

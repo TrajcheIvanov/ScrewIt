@@ -32,8 +32,8 @@ namespace ScrewIt.Mappings
             return new OrderViewModel()
             {
                 Id = order.Id,
-                Username = order.Username,
-                Material = order.Material
+                Username = order.User.UserName,
+                OrderDescription = order.OrderDescription
             };
         }
 
