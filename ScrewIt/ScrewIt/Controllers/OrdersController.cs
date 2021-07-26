@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ScrewIt.Mappings;
+using ScrewIt.Models;
 using ScrewIt.Services.Interfaces;
 using ScrewIt.ViewModels;
 using System;
@@ -16,19 +18,22 @@ namespace ScrewIt.Controllers
 
         private readonly IOrdersService _ordersService;
         private readonly IPanelsService _panelsService;
+        UserManager<ApplicationUser> _userManager;
 
 
         public OrdersController(
             IOrdersService ordersService,
-            IPanelsService panelsService
+            IPanelsService panelsService,
+            UserManager<ApplicationUser> userManager
             )
         {
             _ordersService = ordersService;
             _panelsService = panelsService;
-    }
+            _userManager = userManager;
+        }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             //var orderCreateModel = new OrderCreateModel();
             var panels = _panelsService.GetAll();
@@ -37,12 +42,18 @@ namespace ScrewIt.Controllers
 
             //orderCreateModel.Panels = panelsToView;
 
+            var id = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(id);
+
+            ViewBag.Username = user.Name;
+            ViewBag.UserId = user.Id;
+
             return View();
         }
 
         [HttpPost]
-        //public IActionResult Create([FromBody] OrderCreateModel orderCreateModel)
-        public IActionResult Create(OrderCreateModel orderCreateModel)
+        public IActionResult Create([FromBody] OrderCreateModel orderCreateModel)
+        //public IActionResult Create(OrderCreateModel orderCreateModel)
         {
             if (ModelState.IsValid)
             {

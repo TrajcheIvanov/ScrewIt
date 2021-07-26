@@ -9,7 +9,6 @@ namespace ScrewIt.ViewModels
     public class OrderCreateModel
     {
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 3)]
         public string UserId { get; set; }
         [Required]
         [StringLength(maximumLength: 50, MinimumLength = 3)]

@@ -387,11 +387,9 @@
             var panelIdSelectInput = document.getElementById("PanelIdSelectInput");
             var panelId = panelIdSelectInput.value;
 
-            @*var username = @User.Identity.Username;
-            var userId = @User.Identity.Id;*@
+            var username = "@ViewBag.Username";
+            var userId = "@ViewBag.UserId";
 
-            var username = "aaaaa";
-            var userId = "bbbbb";
 
                 console.log(`User: ${username} made order with description: ${orderDescription} `)
 
@@ -399,7 +397,7 @@
                 var data = {
                     UserId: userId,
                     OrderDescription: orderDescription,
-                    PanelId: panelId
+                    PanelId: parseInt(panelId)
                 }
 
                 var url = "https://localhost:44314/Orders/Create";
@@ -407,7 +405,7 @@
                 axios.post(url, data)
                     .then(function (response) {
                         orderDescriptionInput.value = "";
-                        panelIdSelectInput.value = "";
+                        //panelIdSelectInput.value = "0";
                         console.log(response.data.id);
                         let dimensionsToSend = dimensionsArrayForPost(response.data.id);
                         sendLocalStorageDimensionToServer(dimensionsToSend);
@@ -419,7 +417,7 @@
                     })
 
             } else {
-                alert("Material & Username field must be filled");
+                alert("Order Description & Choose Panel field must be filled");
             }
 
         }
