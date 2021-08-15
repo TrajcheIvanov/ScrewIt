@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col p-3 d-md-flex justify-content-md-around">
                 <button type="button" class="btn btn-success btn-lg p-1" onclick="makeOrder()">Make order</button>
-                <button type="button" class="btn btn-danger btn-lg p-1" onclick="clearDimensionList()">Clear dimension list</button>
+                <button type="button" class="btn btn-danger btn-lg p-1" onclick="ConfirmToClearDimensionList()">Clear dimension list</button>
             </div>
         </div>
    
@@ -185,6 +185,10 @@
 
             clearInserDimension();
 
+           
+            fillDimensionListFromLocalStorage();
+            //here
+
             addInsertDimension(localStorage.length);
 
         }
@@ -194,7 +198,7 @@
             for (let i = 0; i < insertDimension.length; i++) {
                 insertDimension[i].innerHTML = null;
             }
-        } https://script.dotmetrics.net/Images/dotmetrics_splash.png
+        } 
 
         function addInsertDimension(id) {
             var dimensionList = document.getElementById("dimensionList");
@@ -205,7 +209,7 @@
 
             var colToAppend = document.createElement("th");
             colToAppend.setAttribute("id", nextId);
-            colToAppend.innerHTML = nextId;
+            colToAppend.innerHTML = "+";
 
             rowToAppend.appendChild(colToAppend);
 
@@ -231,7 +235,7 @@
 
             var colToAppend = document.createElement("th");
             colToAppend.setAttribute("id", "editNumber");
-            colToAppend.innerHTML = id;
+            colToAppend.innerHTML = "...";
 
             rowForEdit.innerHTML = null;
 
@@ -301,6 +305,7 @@
                 '</div>' + '</td>';
 
             addInsertDimension(nextId);
+            fillDimensionListFromLocalStorage();
         }
 
         function deleteDimension(id) {
@@ -312,6 +317,10 @@
                 var rowForEdit = document.getElementById(id);
                 rowForEdit.innerHTML = null;
                 console.log("dimensions with id: " + id + " was removed")
+
+
+                fillDimensionListFromLocalStorage();
+                //here
             } else {
                 console.log("dimensions with id: " + id + " was not removed")
             }
@@ -319,25 +328,41 @@
         }
 
         function clearDimensionList() {
-                localStorage.clear();
-                var insertDimension = document.getElementsByClassName("Dimension");
-                for (let i = 0; i < insertDimension.length; i++) {
-                    insertDimension[i].innerHTML = null;
-                }
-                console.log("Dimension list cleared")
+            localStorage.clear();
+            var insertDimension = document.getElementsByClassName("Dimension");
+            for (let i = 0; i < insertDimension.length; i++) {
+                insertDimension[i].innerHTML = null;
+            }
+            console.log("Dimension list cleared")
         }
 
-        window.onload = function () {
-            console.log("page was loaded");
+        function ConfirmToClearDimensionList() {
+
+            var x = confirm("Are you sure you want to Clear dimension list?");
+
+            if (x) {
+                clearDimensionList();
+            }
+        }
+
+        function fillDimensionListFromLocalStorage() {
+
+            var insertDimension = document.getElementsByClassName("Dimension");
+            for (let i = 0; i < insertDimension.length; i++) {
+                insertDimension[i].innerHTML = null;
+            }
 
             var dimensionList = document.getElementById("dimensionList");
 
             if (localStorage.length > 0) {
                 console.log("local storage is not empty");
 
-                for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--){
+                let newId = localStorage.length - 1;
+                //here
 
-                    console.log("i = " +  i)
+                for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--) {
+
+                    console.log("i = " + i)
                     var KeyName = window.localStorage.key(i);
                     console.log(KeyName);
                     var dimensionForEdit = JSON.parse(localStorage.getItem(i));
@@ -351,7 +376,8 @@
 
                         var colToAppend = document.createElement("th");
                         colToAppend.setAttribute("id", i);
-                        colToAppend.innerHTML = i;
+                        colToAppend.innerHTML = newId;
+                        //here
 
                         rowForEdit.appendChild(colToAppend);
 
@@ -370,6 +396,8 @@
                             '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + i + ')">Delete</button>' +
                             '</div>' + '</td>';
 
+                        newId -= 1;
+
                         dimensionList.prepend(rowForEdit);
                     }
 
@@ -377,7 +405,13 @@
 
             } else {
                 console.log("local storage is empty");
+                
             }
+        }
+
+        window.onload = function () {
+            console.log("page was loaded");
+            fillDimensionListFromLocalStorage();
         }
 
         function makeOrder() {
@@ -390,8 +424,7 @@
             var username = "@ViewBag.Username";
             var userId = "@ViewBag.UserId";
 
-
-                console.log(`User: ${username} made order with description: ${orderDescription} `)
+            console.log(`User: ${username} made order with description: ${orderDescription} `)
 
             if (orderDescription != null && orderDescription.trim() != "" && panelId != null && panelId != "0") {
                 var data = {
@@ -488,7 +521,7 @@
 
                     let newPromise = axios({
                         method: 'post',
-                        url: "https://localhost:44314/Dimension/Create",
+                        url: url,
                         data: postData
                     })
 
@@ -497,66 +530,63 @@
 
             }
 
-
             return axiosArray;
         }
 
-        function testDimensionPost() {
-            var dimensionForEdit = JSON.parse(localStorage.getItem("1"));
+        //function testDimensionPost() {
+        //    var dimensionForEdit = JSON.parse(localStorage.getItem("1"));
 
 
-            var postData = {
-                FirstDimension: parseInt(dimensionForEdit.FirstDimension),
-                SecondDimension: parseInt(dimensionForEdit.SecondDimension),
-                Quantity: parseInt(dimensionForEdit.Quantity),
-                Rotation: false,
-                FirstDimFirstEdge: 0,
-                FirstDimSecondEdge: 0,
-                SecondDimFirstEdge: 0,
-                SecondDimSecondEdge: 0,
-                AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
-                OrderId: 5
-            }
+        //    var postData = {
+        //        FirstDimension: parseInt(dimensionForEdit.FirstDimension),
+        //        SecondDimension: parseInt(dimensionForEdit.SecondDimension),
+        //        Quantity: parseInt(dimensionForEdit.Quantity),
+        //        Rotation: false,
+        //        FirstDimFirstEdge: 0,
+        //        FirstDimSecondEdge: 0,
+        //        SecondDimFirstEdge: 0,
+        //        SecondDimSecondEdge: 0,
+        //        AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
+        //        OrderId: 5
+        //    }
 
-            var firstFirst = parseInt(dimensionForEdit.FirstDimensionFE);
-            if (!isNaN(firstFirst)) {
-                postData.FirstDimFirstEdge = firstFirst;
-            }
+        //    var firstFirst = parseInt(dimensionForEdit.FirstDimensionFE);
+        //    if (!isNaN(firstFirst)) {
+        //        postData.FirstDimFirstEdge = firstFirst;
+        //    }
 
-            var firstSecond = parseInt(dimensionForEdit.FirstDimensionSE);
-            if (!isNaN(firstSecond)) {
-                postData.FirstDimSecondEdge = firstSecond;
-            }
+        //    var firstSecond = parseInt(dimensionForEdit.FirstDimensionSE);
+        //    if (!isNaN(firstSecond)) {
+        //        postData.FirstDimSecondEdge = firstSecond;
+        //    }
 
-            var secondFirst = parseInt(dimensionForEdit.SecondDimensionFE);
-            if (!isNaN(secondFirst)) {
-                postData.SecondDimFirstEdge = secondFirst;
-            }
+        //    var secondFirst = parseInt(dimensionForEdit.SecondDimensionFE);
+        //    if (!isNaN(secondFirst)) {
+        //        postData.SecondDimFirstEdge = secondFirst;
+        //    }
 
-            var secondSecond = parseInt(dimensionForEdit.SecondDimensionSE);
-            if (!isNaN(secondSecond)) {
-                postData.SecondDimSecondEdge = secondSecond;
-            }
+        //    var secondSecond = parseInt(dimensionForEdit.SecondDimensionSE);
+        //    if (!isNaN(secondSecond)) {
+        //        postData.SecondDimSecondEdge = secondSecond;
+        //    }
 
-            var toRotate = parseInt(dimensionForEdit.Rotation);
-            if (toRotate == 1) {
-                postData.Rotation = true;
-            }
+        //    var toRotate = parseInt(dimensionForEdit.Rotation);
+        //    if (toRotate == 1) {
+        //        postData.Rotation = true;
+        //    }
 
-            console.log(postData);
+        //    console.log(postData);
 
-            var url = "https://localhost:44314/Dimension/Create";
+        //    var url = "https://localhost:44314/Dimension/Create";
 
-            axios.post(url, postData)
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
-
-
-        }
+        //    axios.post(url, postData)
+        //        .then(function (response) {
+        //            console.log(response);
+        //        })
+        //        .catch(function (error) {
+        //            console.log(error);
+        //        })
+        //}
 
     </script>
 }
