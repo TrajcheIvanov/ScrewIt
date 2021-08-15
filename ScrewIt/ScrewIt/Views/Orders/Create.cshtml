@@ -164,9 +164,7 @@
             rowToAppend.appendChild(additionalToAppend);
             rowToAppend.appendChild(editToAppend);
 
-
-
-            dimensionList.append(rowToAppend);
+            //dimensionList.append(rowToAppend);
 
             var dimension = {
                 "FirstDimension": firstDimension,
@@ -180,17 +178,69 @@
                 "Additional": additional,
             };
 
-            localStorage.setItem(nextId - 1, JSON.stringify(dimension));
-            localStorage.setItem("nextId", nextId);
+            if (!validateInputDimension(dimension)) {
+                alert("Wrong input!!!");
+            } else {
+                dimensionList.append(rowToAppend);
+                localStorage.setItem(nextId - 1, JSON.stringify(dimension));
+                localStorage.setItem("nextId", nextId);
 
-            clearInserDimension();
+                clearInserDimension();
 
-           
-            fillDimensionListFromLocalStorage();
-            //here
+                fillDimensionListFromLocalStorage();
 
-            addInsertDimension(localStorage.length);
+                addInsertDimension(localStorage.length);
+            }
+        }
 
+        //validation
+        function validateInputDimension(dimension) {
+
+            if (isNaN(dimension.FirstDimension)) {
+                return false;
+            }
+
+            if (parseInt(dimension.FirstDimension) < 20 || parseInt(dimension.FirstDimension) > 2780 || dimension.FirstDimension == "") {
+                return false;
+            }
+
+            if (isNaN(dimension.SecondDimension)) {
+                return false;
+            }
+
+            if (parseInt(dimension.SecondDimension) < 20 || parseInt(dimension.SecondDimension) > 2780 || dimension.SecondDimension == "") {
+                return false;
+            }
+
+            if (isNaN(dimension.Quantity) || dimension.Quantity == "") {
+                return false;
+            }
+
+            if (parseInt(dimension.Quantity) < 1) {
+                return false;
+            }
+
+            if (parseInt(dimension.Rotation) < 0 || parseInt(dimension.Rotation) > 1) {
+                return false;
+            }
+
+            if (parseInt(dimension.FirstDimensionFE) < 1 || parseInt(dimension.FirstDimensionFE) > 3) {
+                return false;
+            }
+
+            if (parseInt(dimension.FirstDimensionSE) < 1 || parseInt(dimension.FirstDimensionSE) > 3) {
+                return false;
+            }
+
+            if (parseInt(dimension.SecondDimensionFE) < 1 || parseInt(dimension.SecondDimensionFE) > 3) {
+                return false;
+            }
+
+            if (parseInt(dimension.SecondDimensionSE) < 0 || parseInt(dimension.SecondDimensionSE) > 3) {
+                return false;
+            }
+
+            return true;
         }
 
         function clearInserDimension() {
@@ -318,9 +368,7 @@
                 rowForEdit.innerHTML = null;
                 console.log("dimensions with id: " + id + " was removed")
 
-
                 fillDimensionListFromLocalStorage();
-                //here
             } else {
                 console.log("dimensions with id: " + id + " was not removed")
             }
@@ -358,7 +406,6 @@
                 console.log("local storage is not empty");
 
                 let newId = localStorage.length - 1;
-                //here
 
                 for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--) {
 
@@ -438,7 +485,6 @@
                 axios.post(url, data)
                     .then(function (response) {
                         orderDescriptionInput.value = "";
-                        //panelIdSelectInput.value = "0";
                         console.log(response.data.id);
                         let dimensionsToSend = dimensionsArrayForPost(response.data.id);
                         sendLocalStorageDimensionToServer(dimensionsToSend);
