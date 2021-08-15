@@ -34,7 +34,26 @@ namespace ScrewIt.Services
 
             _ordersRepository.Add(newOrder);
 
-            response.Order = newOrder;
+            response.Order = _ordersRepository.GetById(newOrder.Id);
+
+            return response;
+        }
+
+        public StatusModel Delete(int id)
+        {
+            var response = new StatusModel();
+            var order = _ordersRepository.GetById(id);
+
+            if (order == null)
+            {
+                response.IsSuccessful = false;
+                response.Message = $"The Order with id {id} was not found";
+            }
+            else
+            {
+                _ordersRepository.Delete(order);
+                response.Message = $"The Order with description {order.OrderDescription} was deleted";
+            }
 
             return response;
         }
@@ -42,6 +61,11 @@ namespace ScrewIt.Services
         public Order GetOrderById(int orderId)
         {
             return _ordersRepository.GetById(orderId);
+        }
+
+        public List<Order> GetPendingOrders()
+        {
+            return _ordersRepository.GetPendingOrders();
         }
     }
 }

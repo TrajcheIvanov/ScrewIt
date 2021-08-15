@@ -39,17 +39,17 @@ namespace ScrewIt.Services
         public StatusModel Delete(int id)
         {
             var response = new StatusModel();
-            var hotel = _panelsRepository.GetById(id);
+            var panel = _panelsRepository.GetById(id);
 
-            if (hotel == null)
+            if (panel == null)
             {
                 response.IsSuccessful = false;
                 response.Message = $"The Panel with id {id} was not found";
             }
             else
             {
-                _panelsRepository.Delete(hotel);
-                response.Message = $"The Panel with Name {hotel.Name} was deleted";
+                _panelsRepository.Delete(panel);
+                response.Message = $"The Panel with Name {panel.Name} was deleted";
             }
 
             return response;

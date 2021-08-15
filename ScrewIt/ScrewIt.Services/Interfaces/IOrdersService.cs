@@ -10,5 +10,7 @@ namespace ScrewIt.Services.Interfaces
     {
         AddOrderResponse CreateOrder(Order domainModel);
         Order GetOrderById(int orderId);
+        List<Order> GetPendingOrders();
+        StatusModel Delete(int id);
     }
 }

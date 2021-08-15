@@ -32,8 +32,9 @@ namespace ScrewIt.Mappings
             return new OrderViewModel()
             {
                 Id = order.Id,
-                //Username = order.User.Name,
-                OrderDescription = order.OrderDescription
+                Username = order.User.Name,
+                OrderDescription = order.OrderDescription,
+                PanelName = order.Panel.Name + " - " + order.Panel.Length + "x" + order.Panel.Height + "x" + order.Panel.Thickness + " mm"
             };
         }
 

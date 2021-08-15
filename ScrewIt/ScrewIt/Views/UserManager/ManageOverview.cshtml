@@ -4,10 +4,9 @@
     ViewData["Title"] = "ManageUsersOverview";
 }
 
-
-<div class="container-fluid">
+<h1 class="text-white">Manage Users</h1>
+<div class="container">
     <div class="col col-md-10 offset-1">
-        <h1 class="text-white">Manage Users</h1>
         @if (ViewBag.ErrorMessage != null)
         {
             <div class="alert alert-danger col-md-6" role="alert">
@@ -22,7 +21,7 @@
             </div>
         }
         <div class="row m-3">
-            <div class="input-group col col-4">
+            <div class="input-group col col-md-6">
                 <div class="input-group-prepend">
                     <div class="input-group-text" id="btnGroupAddon">Search</div>
                 </div>
@@ -30,49 +29,50 @@
             </div>
         </div>
         <div class="row">
-            <table class="table table-dark table-striped table-sm table-bordered table-responsive-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.Surname)</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.RoleName)</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.PhoneNumber)</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="usersList">
-                    @foreach (var user in Model)
-                    {
-                        <tr>
-                            <td>
-                                @user.Name
-                            </td>
-                            <td>
-                                @user.Surname
-                            </td>
-                            <td>
-                                @user.RoleName
-                            </td>
-                            <td>
-                                @user.PhoneNumber
-                            </td>
-                            <td>
-                                @user.Email
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a type="button" class="btn btn-warning" href="/UserManager/Edit/@user.Id">Edit</a>
-                                    <a type="button" class="btn btn-danger" href="/UserManager/Delete/@user.Id" onclick="return confirm('Are you sure?')">Delete</a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            
         </div>
     </div>
 </div>
+<table class="table table-dark table-striped table-sm table-bordered table-responsive-sm">
+    <thead>
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Surname)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.RoleName)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.Email)</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody id="usersList">
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @user.Name
+                </td>
+                <td>
+                    @user.Surname
+                </td>
+                <td>
+                    @user.RoleName
+                </td>
+                <td>
+                    @user.PhoneNumber
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td class="text-center">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a type="button" class="btn btn-warning" href="/UserManager/Edit/@user.Id">Edit</a>
+                        <a type="button" class="btn btn-danger" href="/UserManager/Delete/@user.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -72,5 +72,40 @@ namespace ScrewIt.Controllers
             
             return View(orderCreateModel);
         }
+
+        public IActionResult ManageOverview(string errorMessage, string successMessage)
+        {
+            ViewBag.ErrorMessage = errorMessage;
+            ViewBag.SuccessMessage = successMessage;
+
+            var orders = _ordersService.GetPendingOrders();
+            var ordersToView = orders.Select(x => x.ToOrderViewModel()).ToList();
+
+            return View(ordersToView);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var response = _ordersService.Delete(id);
+
+            if (response.IsSuccessful)
+            {
+                return RedirectToAction("ManageOverview", new { SuccessMessage = response.Message });
+            }
+            else
+            {
+                return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
+            }
+        }
+
+        public IActionResult Details(int id)
+        {
+            var order = _ordersService.GetOrderById(id);
+            var orderToView = order.ToOrderViewModel();
+
+            ViewBag.Dimensions = order.Dimensions.Select(x => x.ToDimensionViewModel()).ToList();
+
+            return View(orderToView);
+        }
     }
 }

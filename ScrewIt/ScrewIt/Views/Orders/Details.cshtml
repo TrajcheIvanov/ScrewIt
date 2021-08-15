@@ -1,0 +1,71 @@
+﻿@model ScrewIt.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<style>
+    *{
+        color:white;
+    }
+</style>
+
+<h3>Order Id: @Model.Id</h3>
+<h3>Customer Name: @Model.Username</h3>
+<h3>Panel: @Model.PanelName </h3>
+
+
+
+
+<table class="table table-dark table-striped table-sm table-responsive-sm table-bordered text-center">
+    <thead>
+        <tr class="text-center">
+            <th scope="col" rowspan="2">1st Dimension</th>
+            <th scope="col" rowspan="2">2nd Dimension</th>
+            <th scope="col" rowspan="2">Quantity</th>
+            <th scope="col" rowspan="2">Rotation</th>
+            <th scope="col" rowspan="2"></th>
+            <th scope="col" rowspan="2"></th>
+            <th scope="col" colspan="2">1st Dimension</th>
+            <th scope="col" colspan="2">2nd Dimension</th>
+            <th scope="col" rowspan="2">Additional</th>
+        </tr>
+
+        <tr>
+            <th scope="col">1st Edge</th>
+            <th scope="col">2nd Edge</th>
+            <th scope="col">1st Edge</th>
+            <th scope="col">2nd Edge</th>
+        </tr>
+    </thead>
+    <tbody id="dimensionList">
+
+        @foreach (var item in ViewBag.Dimensions)
+        {
+             <tr>
+                 <td id="FirstDimension">@item.FirstDimension </td>
+                 <td id="SecondDimension">@item.SecondDimension </td>
+                 <td id="Quantity">@item.Quantity </td>
+                 <td id="Rotation">
+                    @if (@item.Rotation)
+                    {
+                        <span>1</span>
+                    }
+                    else
+                    {
+                        <span>0</span>
+                    }
+
+                 </td>
+                 <td></td>
+                 <td></td>
+                 <td id="FirstDimensionFE">@item.FirstDimFirstEdge</td>
+                 <td id="FirstDimensionSE">@item.FirstDimSecondEdge</td>
+                 <td id="SecondDimensionFE">@item.SecondDimFirstEdge</td>
+                 <td id="SecondDimensionSE">@item.SecondDimSecondEdge</td>
+                 <td id="Additional">@item.AdditionalProcessing</td>
+             </tr>
+         }
+           
+        </tbody>
+</table>

@@ -7,5 +7,6 @@ namespace ScrewIt.Repositories.Interfaces
 {
     public interface IOrdersRepository : IBaseRepository<Order>
     {
+        List<Order> GetPendingOrders();
     }
 }
