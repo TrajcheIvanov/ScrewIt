@@ -18,5 +18,6 @@ namespace ScrewIt.ViewModels
         public double Thickness { get; set; }
 
         public double Price { get; set; }
+
     }
 }

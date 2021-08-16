@@ -27,7 +27,9 @@ namespace ScrewIt.Services
                     Thickness = domainModel.Thickness,
                     Length = domainModel.Length,
                     Height = domainModel.Height,
-                    Price = domainModel.Price
+                    Price = domainModel.Price,
+                    MeasureUnit = MeasureUnit.Panel
+                    
             };
 
                 _panelsRepository.Add(newPanel);

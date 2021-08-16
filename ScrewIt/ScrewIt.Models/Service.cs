@@ -4,23 +4,16 @@ using System.Text;
 
 namespace ScrewIt.Models
 {
-    public class Panel
+    public class Service
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int Length {get; set;}
-
-        public int Height {get; set;}
-
-        public double Thickness {get; set;}
-
-        public double Price {get; set; }
+        public double Price { get; set; }
 
         public MeasureUnit MeasureUnit { get; set; }
 
-        public List<Order> Orders { get; set; }
-
+        public List<ReceiptService> ReceiptServices { get; set; }
     }
 }

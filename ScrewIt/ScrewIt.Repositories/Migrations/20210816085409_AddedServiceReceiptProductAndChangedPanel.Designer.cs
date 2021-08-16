@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ScrewIt.Repositories;
 
 namespace ScrewIt.Repositories.Migrations
 {
     [DbContext(typeof(ScrewItDbContext))]
-    partial class ScrewItDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210816085409_AddedServiceReceiptProductAndChangedPanel")]
+    partial class AddedServiceReceiptProductAndChangedPanel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -395,50 +397,6 @@ namespace ScrewIt.Repositories.Migrations
                     b.ToTable("Receipts");
                 });
 
-            modelBuilder.Entity("ScrewIt.Models.ReceiptProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReceiptId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ReceiptId");
-
-                    b.ToTable("ReceiptProducts");
-                });
-
-            modelBuilder.Entity("ScrewIt.Models.ReceiptService", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ReceiptId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiptId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("ReceiptServices");
-                });
-
             modelBuilder.Entity("ScrewIt.Models.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -546,36 +504,6 @@ namespace ScrewIt.Repositories.Migrations
                     b.HasOne("ScrewIt.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("ScrewIt.Models.ReceiptProduct", b =>
-                {
-                    b.HasOne("ScrewIt.Models.Product", "Product")
-                        .WithMany("ReceiptProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScrewIt.Models.Receipt", "Receipt")
-                        .WithMany("ReceiptProducts")
-                        .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ScrewIt.Models.ReceiptService", b =>
-                {
-                    b.HasOne("ScrewIt.Models.Receipt", "Receipt")
-                        .WithMany("ReceiptServices")
-                        .HasForeignKey("ReceiptId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ScrewIt.Models.Service", "Service")
-                        .WithMany("ReceiptServices")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
