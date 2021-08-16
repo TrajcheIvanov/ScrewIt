@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace ScrewIt.Controllers
 {
-    public class PanelsController : Controller
+    public class ProductsController : Controller
     {
-        private readonly IPanelsService _panelsService;
+        private readonly IProductsService _productsService;
 
-        public PanelsController(IPanelsService panelsService)
+        public ProductsController(IProductsService productsService)
         {
-            _panelsService = panelsService;
+            _productsService = productsService;
         }
         public IActionResult ManageOverview(string errorMessage, string successMessage)
         {
             ViewBag.ErrorMessage = errorMessage;
             ViewBag.SuccessMessage = successMessage;
 
-            var panels = _panelsService.GetAll();
-            var panelsToView = panels.Select(x => x.ToViewModel());
+            var products = _productsService.GetAll();
+            var productsToView = products.Select(x => x.ToViewModel());
 
-            return View(panelsToView);
+            return View(productsToView);
         }
 
         [HttpGet]
@@ -36,12 +36,12 @@ namespace ScrewIt.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(PanelCreateModel model)
+        public IActionResult Create(ProductCreateModel model)
         {
             if (ModelState.IsValid)
             {
                 var domainModel = model.ToModel();
-                var response = _panelsService.CreatePanel(domainModel);
+                var response = _productsService.CreateProduct(domainModel);
 
                 if (response.IsSuccessful)
                 {
@@ -51,24 +51,25 @@ namespace ScrewIt.Controllers
                 {
                     return RedirectToAction("ManageOverview", new { ErrorMessage = "Something went wrong... please try again" });
                 }
-            } else
+            }
+            else
             {
                 return View(model);
             }
-            
+
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
 
-            var panel = _panelsService.GetById(id);
+            var product = _productsService.GetById(id);
 
-            if (panel != null)
+            if (product != null)
             {
-                var panelToEdit = panel.ToViewModel();
+                var productToEdit = product.ToViewModel();
 
-                return View(panelToEdit);
+                return View(productToEdit);
             }
 
             return RedirectToAction("ManageOverview", new { ErrorMessage = "Something went wrong... please try again" });
@@ -76,12 +77,12 @@ namespace ScrewIt.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(PanelViewModel model)
+        public IActionResult Edit(ProductViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var domainModel = model.ToModel();
-                var response = _panelsService.Update(domainModel);
+                var response = _productsService.Update(domainModel);
 
                 if (response.IsSuccessful)
                 {
@@ -100,7 +101,7 @@ namespace ScrewIt.Controllers
 
         public IActionResult Delete(int id)
         {
-            var response = _panelsService.Delete(id);
+            var response = _productsService.Delete(id);
 
             if (response.IsSuccessful)
             {
@@ -111,7 +112,6 @@ namespace ScrewIt.Controllers
                 return RedirectToAction("ManageOverview", new { ErrorMessage = response.Message });
             }
         }
+
     }
-
-
 }

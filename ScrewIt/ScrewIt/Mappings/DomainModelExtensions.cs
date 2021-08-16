@@ -63,6 +63,18 @@ namespace ScrewIt.Mappings
                 Price = panel.Price
             };
         }
+
+        public static ProductViewModel ToViewModel(this Product panel)
+        {
+            return new ProductViewModel()
+            {
+                Id = panel.Id,
+                Name = panel.Name,
+                Price = panel.Price,
+                MeasureUnit = panel.MeasureUnit,
+                ProductType = panel.ProductType
+            };
+        }
     }
 
 }

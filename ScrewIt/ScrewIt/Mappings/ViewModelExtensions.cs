@@ -36,7 +36,7 @@ namespace ScrewIt.Mappings
             };
         }
 
-        public static Panel ToPanelModel(this PanelCreateModel panel)
+        public static Panel ToModel(this PanelCreateModel panel)
         {
             return new Panel()
             {
@@ -58,6 +58,29 @@ namespace ScrewIt.Mappings
                 Length = panel.Length,
                 Height = panel.Height,
                 Price = panel.Price
+            };
+        }
+
+        public static Product ToModel(this ProductCreateModel product)
+        {
+            return new Product()
+            {
+                Name = product.Name,
+                Price = product.Price,
+                MeasureUnit = product.MeasureUnit,
+                ProductType = product.ProductType
+            };
+        }
+
+        public static Product ToModel(this ProductViewModel product)
+        {
+            return new Product()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                MeasureUnit = product.MeasureUnit,
+                ProductType = product.ProductType
             };
         }
     }

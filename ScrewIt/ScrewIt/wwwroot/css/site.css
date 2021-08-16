@@ -79,3 +79,8 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+table tr {
+    height: 30px;
+    overflow: auto;
+}

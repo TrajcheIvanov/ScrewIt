@@ -1,15 +1,15 @@
-﻿@model IEnumerable<ScrewIt.ViewModels.PanelViewModel>
+﻿@model IEnumerable<ScrewIt.ViewModels.ProductViewModel>
 
 @{
-    ViewData["Title"] = "ManagePanelsOverview";
+    ViewData["Title"] = "ManageProductsOverview";
 }
 
-<h1 class="text-white">Manage Panels</h1>
+<h1 class="text-white">Manage Products</h1>
 <div class="container">
     <div class="col col-md-10 offset-1">
         <div class="row">
             <div class="col p-3 d-flex justify-content-between">
-                <a class="btn btn-success btn-lg" asp-area="" asp-controller="Panels" asp-action="Create">Create New Panel</a>
+                <a class="btn btn-success btn-lg" asp-area="" asp-controller="Products" asp-action="Create">Create New Product</a>
             </div>
         </div>
         @if (ViewBag.ErrorMessage != null)
@@ -31,36 +31,33 @@
     <thead>
         <tr>
             <th scope="col">@Html.DisplayNameFor(model => model.Name)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.Thickness)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.Length)</th>
-            <th scope="col">@Html.DisplayNameFor(model => model.Height)</th>
             <th scope="col">@Html.DisplayNameFor(model => model.Price)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.MeasureUnit)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.ProductType)</th>
             <th scope="col"></th>
         </tr>
     </thead>
     <tbody id="usersList">
-        @foreach (var panel in Model)
+        @foreach (var product in Model)
         {
             <tr>
                 <td>
-                    @panel.Name
+                    @product.Name
                 </td>
                 <td>
-                    @panel.Thickness
+                    @product.Price
                 </td>
                 <td>
-                    @panel.Length
+                    @product.MeasureUnit
                 </td>
                 <td>
-                    @panel.Height
+                    @product.ProductType
                 </td>
-                <td>
-                    @panel.Price
-                </td>
+               
                 <td class="text-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a type="button" class="btn-sm btn-warning" href="/Panels/Edit/@panel.Id">Edit</a>
-                        <a type="button" class="btn-sm btn-danger" href="/Panels/Delete/@panel.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a type="button" class="btn-sm btn-warning" href="/Products/Edit/@product.Id">Edit</a>
+                        <a type="button" class="btn-sm btn-danger" href="/Products/Delete/@product.Id" onclick="return confirm('Are you sure?')">Delete</a>
                     </div>
                 </td>
             </tr>

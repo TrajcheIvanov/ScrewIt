@@ -1,0 +1,46 @@
+﻿@model ScrewIt.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<div class="container-fluid">
+    <div class="col-sm-4 offset-0">
+        <h1 class="text-white">Edit Product</h1>
+        <form asp-action="Edit" asp-controller="Products" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="Name" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Price" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="MeasureUnit" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <select class="form-control" asp-for="MeasureUnit" asp-items="Html.GetEnumSelectList<MeasureUnit>()"></select>
+                    <span asp-validation-for="MeasureUnit" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="ProductType" class="control-label col-md-5 text-white font-weight-normal text-right"></label>
+                <div class="col-md-7">
+                    <select class="form-control" asp-for="ProductType" asp-items="Html.GetEnumSelectList<ProductType>()"></select>
+                    <span asp-validation-for="ProductType" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <a asp-action="ManageOVerview" asp-controller="Products" class="font-weight-bold small btn btn-danger col-md-4 offset-md-3">Back to List</a>
+                <input type="submit" value="Save" class="btn btn-success col-md-4 offset-md-1" />
+            </div>
+        </form>
+    </div>
+</div>

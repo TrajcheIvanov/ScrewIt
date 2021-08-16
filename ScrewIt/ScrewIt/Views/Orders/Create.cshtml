@@ -65,7 +65,7 @@
             <td id="SecondDimensionFE"><input type="text" class="form-control" /></td>
             <td id="SecondDimensionSE"><input type="text" class="form-control" /></td>
             <td id="Additional"><input type="text" class="form-control" /></td>
-            <td><button class="btn btn-success" onclick="addDimension()">Add</button></td>
+            <td><button class="btn-sm btn-success" onclick="addDimension()">Add</button></td>
         </tr>
     </tbody>
 </table>
@@ -138,12 +138,12 @@
             buttonGroup.classList = ("btn-group");
             buttonGroup.setAttribute("role", "group");
             var editButton = document.createElement("button");
-            editButton.classList = ("btn btn-warning");
+            editButton.classList = ("btn-sm btn-warning");
             editButton.innerHTML = "Edit";
             editButton.setAttribute("type", "button");
             editButton.onclick = function () { editDimension(currentId) };
             var deleteButton = document.createElement("button");
-            deleteButton.classList = ("btn btn-danger");
+            deleteButton.classList = ("btn-sm btn-danger");
             deleteButton.innerHTML = "Delete";
             deleteButton.setAttribute("type", "button");
             deleteButton.onclick = function () { deleteDimension(currentId) };
@@ -273,7 +273,7 @@
                 '<td id="SecondDimensionFE"><input type="text" class="form-control"  /></td>' +
                 '<td id="SecondDimensionSE"><input type="text" class="form-control"  /></td>' +
                 '<td id="Additional"><input type="text" class="form-control"  /></td>' +
-                '<td>' + '<button class="btn btn-success" onclick="addDimension()">Add</button>' + '</td>';
+                '<td>' + '<button class="btn-sm btn-success" onclick="addDimension()">Add</button>' + '</td>';
 
             dimensionList.append(rowToAppend);
         }
@@ -301,7 +301,7 @@
                 '<td id="SecondDimensionFE"><input type="text" class="form-control"  value=' + dimensionForEdit.SecondDimensionFE + ' /></td>' +
                 '<td id="SecondDimensionSE"><input type="text" class="form-control" value=' + dimensionForEdit.SecondDimensionSE + '  /></td>' +
                 '<td id="Additional"><input type="text" class="form-control"  value=' + dimensionForEdit.Additional + ' /></td>' +
-                '</td>' + '<td>' + '<button class="btn btn-primary" onclick="saveEditedDimension(' + id + ')">Save</button>' + '</td>';
+                '</td>' + '<td>' + '<button class="btn-sm btn-primary" onclick="saveEditedDimension(' + id + ')">Save</button>' + '</td>';
 
 
             clearInserDimension();
@@ -350,8 +350,8 @@
                 '<td> ' + dimensionForEdit.SecondDimensionSE.replace("/","")  + ' </td>' +
                 '<td> ' + dimensionForEdit.Additional.replace("/","")  + ' </td>' +
                 '<td>' + '<div class="btn-group" role="group">' +
-                '<button class="btn btn-warning" type="button" onclick="editDimension(' + id + ')">Edit</button>' +
-                '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + id + ')">Delete</button>' +
+                '<button class="btn-sm btn-warning" type="button" onclick="editDimension(' + id + ')">Edit</button>' +
+                '<button class="btn-sm btn-danger" type="button"  onclick="deleteDimension(' + id + ')">Delete</button>' +
                 '</div>' + '</td>';
 
             addInsertDimension(nextId);
@@ -439,8 +439,8 @@
                             '<td> ' + dimensionForEdit.SecondDimensionSE.replace("/", "") + ' </td>' +
                             '<td> ' + dimensionForEdit.Additional.replace("/", "") + ' </td>' +
                             '<td>' + '<div class="btn-group" role="group">' +
-                            '<button class="btn btn-warning" type="button" onclick="editDimension(' + i + ')">Edit</button>' +
-                            '<button class="btn btn-danger" type="button"  onclick="deleteDimension(' + i + ')">Delete</button>' +
+                            '<button class="btn-sm btn-warning" type="button" onclick="editDimension(' + i + ')">Edit</button>' +
+                            '<button class="btn-sm btn-danger" type="button"  onclick="deleteDimension(' + i + ')">Delete</button>' +
                             '</div>' + '</td>';
 
                         newId -= 1;
