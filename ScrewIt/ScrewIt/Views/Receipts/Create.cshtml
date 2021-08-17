@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "CreateNewProduct";
+}
+
+
+<h1 class="text-white">Create Receipt</h1>
+
+<table class="table table-dark table-striped table-sm  table-responsive-sm col-md-8 offset-md-2">
+    <thead>
+        <tr class="text-center">
+            <th>No.</th>
+            <th>Product</th>
+            <th>M-unit</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+
+    </thead>S
+    <tbody id="dimensionList">
+        <tr class="Adding" onkeydown="if(event.keyCode==13) logProduct()">
+            <th id="No"> + </th>
+            <td id="Product"><input type="text" name="ProductName" id="ProductName" placeholder="Enter Product Name" class="form-control" required /></td>
+            <td id="M-unit"></td>
+            <td id="Quantity"><input type="text" id="QuantityInput" class="form-control" required /></td>
+            <td id="Price"></td>
+            <td id="Total"></td>
+            <td><button class="btn-sm btn-success" onclick="logProduct()">Add <i class="fas fa-plus-circle"></i></button></td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts{
+<script type="text/javascript">
+    $(function () {
+        $("#ProductName").autocomplete({
+            source: '/Receipts/GetForAutoCompleteProduct',
+            minLength: 1
+        });
+    });
+
+     function logProduct() {
+        var productInput = document.getElementById("ProductName");
+        console.log(productInput.value)
+     }
+
+    onclick = function () {
+        checkIfFocused();
+    }
+
+    document.addEventListener('keydown', function (event) {
+
+        if (event.keyCode == 9) {
+            console.log("TAB is clicked");
+            checkIfFocused();
+        }
+    });
+
+
+    function checkIfFocused() {
+        if (document.getElementById("QuantityInput") === document.activeElement) {
+            console.log("Quantity input is on focus")
+        }
+    }
+
+    onkeydown = function () {
+        logProduct();
+    }
+</script>
+}
