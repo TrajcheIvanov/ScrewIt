@@ -7,6 +7,7 @@ namespace ScrewIt.Models
     public enum ProductType
     {
         Panel,
-        Edgeband
+        Edgeband,
+        Service
     }
 }

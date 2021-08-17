@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<ScrewIt.ViewModels.ProductViewModel>
 
 @{
-    ViewData["Title"] = "ManageProductsOverview";
+    ViewData["Title"] = "Manage Products & Services Overview";
 }
 
-<h1 class="text-white">Manage Products</h1>
+<h1 class="text-white">Manage Products & Services</h1>
 <div class="container">
     <div class="col col-md-10 offset-1">
         <div class="row">
             <div class="col p-3 d-flex justify-content-between">
-                <a class="btn btn-success btn-lg" asp-area="" asp-controller="Products" asp-action="Create">Create New Product</a>
+                <a class="btn btn-success btn-lg" asp-area="" asp-controller="Products" asp-action="Create">Create New Product <i class="fas fa-plus-circle"></i></a>
             </div>
         </div>
         @if (ViewBag.ErrorMessage != null)
@@ -56,7 +56,7 @@
                
                 <td class="text-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a type="button" class="btn-sm btn-warning" href="/Products/Edit/@product.Id">Edit</a>
+                        <a type="button" class="btn-sm btn-info" href="/Products/Edit/@product.Id">Edit</a>
                         <a type="button" class="btn-sm btn-danger" href="/Products/Delete/@product.Id" onclick="return confirm('Are you sure?')">Delete</a>
                     </div>
                 </td>

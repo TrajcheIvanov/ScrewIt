@@ -9,7 +9,7 @@
     <div class="col col-md-10 offset-1">
         <div class="row">
             <div class="col p-3 d-flex justify-content-between">
-                <a class="btn btn-success btn-lg" asp-area="" asp-controller="Panels" asp-action="Create">Create New Panel</a>
+                <a class="btn btn-success btn-lg" asp-area="" asp-controller="Panels" asp-action="Create">Create New Panel <i class="fas fa-plus-circle"></i></a>
             </div>
         </div>
         @if (ViewBag.ErrorMessage != null)
@@ -59,7 +59,7 @@
                 </td>
                 <td class="text-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a type="button" class="btn-sm btn-warning" href="/Panels/Edit/@panel.Id">Edit</a>
+                        <a type="button" class="btn-sm btn-info" href="/Panels/Edit/@panel.Id">Edit</a>
                         <a type="button" class="btn-sm btn-danger" href="/Panels/Delete/@panel.Id" onclick="return confirm('Are you sure?')">Delete</a>
                     </div>
                 </td>

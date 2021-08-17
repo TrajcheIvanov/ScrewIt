@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - ScrewIt</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+    <script src="https://kit.fontawesome.com/45d732f733.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -21,28 +23,16 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @*<li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Orders" asp-action="Create">Create Order</a>
-                            </li>*@
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="UserManager" asp-action="ManageOverview">M-Users</a>
                             </li>
-                            @*<li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Panels" asp-action="ManageOverview">M-Panels</a>
-                            </li>*@
-                            @*<li class="nav-item">
-                                <a class="nav-link text-white" asp-area="" asp-controller="Orders" asp-action="ManageOverview">M-Orders</a>
-                             </li>*@
-
-                            //
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle table-hover text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Manage Offer
                                 </a>
-                                <div class="dropdown-menu bg-secondary" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item " asp-controller="Panels" asp-action="ManageOverview">Manage Panels</a>
-                                    <a class="dropdown-item " asp-controller="Products" asp-action="ManageOverview">Manage Products</a>
-                                    <a class="dropdown-item " href="#">Manage Services</a>
+                                <div class="dropdown-menu bg-warning" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item " asp-controller="Panels" asp-action="ManageOverview">M-Panels</a>
+                                    <a class="dropdown-item " asp-controller="Products" asp-action="ManageOverview">M-Products & Services</a>
                                 </div>
                             </li>
                             //
@@ -50,9 +40,10 @@
                                 <a class="nav-link dropdown-toggle table-hover text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Orders
                                 </a>
-                                <div class="dropdown-menu bg-secondary" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-menu bg-warning" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item " asp-controller="Orders" asp-action="ManageOverview">Manage Orders</a>
                                     <a class="dropdown-item " asp-controller="Orders" asp-action="Create">Create New Order</a>
+                                    <a class="dropdown-item " asp-controller="Orders" asp-action="Overview">Orders Status</a>
                                 </div>
                             </li>
                             <li class="nav-item">
