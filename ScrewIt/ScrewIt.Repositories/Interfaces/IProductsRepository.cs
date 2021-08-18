@@ -7,5 +7,6 @@ namespace ScrewIt.Repositories.Interfaces
 {
     public interface IProductsRepository : IBaseRepository<Product>
     {
+        Product CheckIfExist(string product);
     }
 }

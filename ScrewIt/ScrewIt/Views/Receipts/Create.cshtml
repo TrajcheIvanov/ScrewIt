@@ -5,7 +5,7 @@
 
 <h1 class="text-white">Create Receipt</h1>
 
-<table class="table table-dark table-striped table-sm  table-responsive-sm col-md-8 offset-md-2">
+<table class="table table-dark table-striped table-sm  table-responsive-sm col-md-8 offset-md-2 text-center">
     <thead>
         <tr class="text-center">
             <th>No.</th>
@@ -18,20 +18,135 @@
         </tr>
 
     </thead>S
-    <tbody id="dimensionList">
-        <tr class="Adding" onkeydown="if(event.keyCode==13) logProduct()">
+    <tbody id="Input">
+        <tr id="InputSection" onkeydown="if(event.keyCode==13) logProduct()">
             <th id="No"> + </th>
             <td id="Product"><input type="text" name="ProductName" id="ProductName" placeholder="Enter Product Name" class="form-control" required /></td>
             <td id="M-unit"></td>
-            <td id="Quantity"><input type="text" id="QuantityInput" class="form-control" required /></td>
+            <td id="Quantity">@*<input type="text" id="QuantityInput" class="form-control" required />*@</td>
             <td id="Price"></td>
             <td id="Total"></td>
-            <td><button class="btn-sm btn-success" onclick="logProduct()">Add <i class="fas fa-plus-circle"></i></button></td>
+            <td><button class="btn-sm btn-success" onclick="CheckIfChosenProductIsValid()">Add <i class="fas fa-plus-circle"></i></button></td>
         </tr>
+    </tbody>
+    <tbody id="ReceiptList">
+
     </tbody>
 </table>
 
 @section Scripts{
+<script>
+
+    var soldProducts = [];
+    var curentProduct = {
+        name: " ",
+        price: " ",
+        type: " ",
+        id: " "};
+
+    function CheckIfChosenProductIsValid() {
+        var productInput = document.getElementById("ProductName");
+
+        axios.get(`https://localhost:44314/Receipts/CheckIfChosenProductIsValid?product=${productInput.value}`)
+            .then(function (response) {
+                if (response.data.status.isSuccessful) {
+                    clearProductInputSection()
+                    hideInputSection();
+                    getProduct(response.data.type, response.data.productId);
+                    
+
+                } else {
+                    productInput.style.backgroundColor = "yellow";
+                    alert("Invalid input, check yellow background input!")
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    function getProduct(type , id) {
+        axios.get(`https://localhost:44314/Receipts/getProduct?type=${type}&id=${id}`)
+            .then(function (response) {
+
+                curentProduct.name = response.data.name;
+                curentProduct.price = response.data.price;
+                curentProduct.type = response.data.type;
+                curentProduct.id = response.data.id;
+
+                updateReceiptList();
+              
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
+    function hideInputSection() {
+        var InputSection = document.getElementById("InputSection")
+        InputSection.style.display = "none";
+    }
+
+    function showInputSection() {
+        var InputSection = document.getElementById("InputSection")
+        InputSection.style.display = "table-row";
+    }
+
+    function updateReceiptList() {
+        var ReceiptList = document.getElementById("ReceiptList");
+        
+        ReceiptList.innerHTML +=
+            `<tr id="Product${soldProducts.length + 1}">
+            <th id="No${soldProducts.length + 1}"> ${soldProducts.length + 1} </th>
+            <td id="Product${soldProducts.length + 1}">${curentProduct.name}</td>
+            <td id="M-unit${soldProducts.length + 1}"> ${curentProduct.type}</td>
+            <td id="Quantity${soldProducts.length + 1}"><input type="text" id="QuantityInput" class="form-control" required /></td>
+            <td id="Price${soldProducts.length + 1}"> ${curentProduct.price} </td>
+            <td id="Total${soldProducts.length + 1}"> - - - </td>
+            <td><button class="btn-sm btn-success" onclick="checkIfQuantityIsValid(${soldProducts.length + 1})">Add <i class="fas fa-plus-circle"></i></button></td>
+            </tr >`
+    }
+
+    function clearProductInputSection() {
+        var InputSection = document.getElementById("ProductName");
+        InputSection.value = '';
+        InputSection.style.backgroundColor = "white";
+        
+    } 
+
+    function clearQuantityInputSection() {
+        var InputSection = document.getElementById("QuantityInput");
+        InputSection.value = '';
+        InputSection.style.backgroundColor = "white";
+
+    } 
+
+    function checkIfQuantityIsValid(id) {
+        var quantityInput = document.getElementById("QuantityInput");
+
+        if (parseInt(quantityInput.value) < 1 || quantityInput.value == null || isNaN(quantityInput.value)) {
+            quantityInput.style.backgroundColor = "yellow";
+            alert("Invalid input, check yellow background input!")
+        } else {
+            
+            soldProducts.push(soldProducts.length);
+            var rowToUpdate = document.getElementById("Product" +id);
+            rowToUpdate.innerHTML = 
+
+                `<th id="No${soldProducts.length}"> ${soldProducts.length} </th>
+                <td id="Product${soldProducts.length}">${curentProduct.name}</td>
+                <td id="M-unit${soldProducts.length}"> ${curentProduct.type}</td>
+                <td id="Quantity${soldProducts.length}">${quantityInput.value}</td>
+                <td id="Price${soldProducts.length}"> ${curentProduct.price} </td>
+                <td id="Total${soldProducts.length}"> ${parseFloat(quantityInput.value) * curentProduct.price}</td>
+                <td><button class="btn-sm btn-info"> Edit </button></td>`
+
+
+            showInputSection();
+        }
+    }
+
+</script>
 <script type="text/javascript">
     $(function () {
         $("#ProductName").autocomplete({
@@ -40,32 +155,9 @@
         });
     });
 
-     function logProduct() {
-        var productInput = document.getElementById("ProductName");
-        console.log(productInput.value)
-     }
+    
 
-    onclick = function () {
-        checkIfFocused();
-    }
-
-    document.addEventListener('keydown', function (event) {
-
-        if (event.keyCode == 9) {
-            console.log("TAB is clicked");
-            checkIfFocused();
-        }
-    });
-
-
-    function checkIfFocused() {
-        if (document.getElementById("QuantityInput") === document.activeElement) {
-            console.log("Quantity input is on focus")
-        }
-    }
-
-    onkeydown = function () {
-        logProduct();
-    }
 </script>
+
+
 }

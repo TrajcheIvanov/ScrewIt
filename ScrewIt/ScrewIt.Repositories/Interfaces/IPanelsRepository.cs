@@ -7,5 +7,6 @@ namespace ScrewIt.Repositories.Interfaces
 {
     public interface IPanelsRepository : IBaseRepository<Panel>
     {
+        Panel CheckIfExist(string product);
     }
 }

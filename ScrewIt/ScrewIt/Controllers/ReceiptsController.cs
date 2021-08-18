@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ScrewIt.Services.Interfaces;
+using ScrewIt.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,29 +32,42 @@ namespace ScrewIt.Controllers
 
         public List<String> GetForAutoCompleteProduct(String term)
         {
-            var stringToReturn = new List<String>();
+            var productOffer = _receiptsService.GetProductOffer(term);
 
-            var panels = _panelsService.GetAll();
-
-            foreach (var panel in panels)
-            {
-                if (panel.Name.ToLower().Contains(term.ToLower()))
-                {
-                    stringToReturn.Add(panel.Name);
-                }
-            }
-
-            var products = _productsService.GetAll();
-
-            foreach (var product in products)
-            {
-                if (product.Name.ToLower().Contains(term.ToLower()))
-                {
-                    stringToReturn.Add(product.Name);
-                }
-            }
-
-            return stringToReturn;
+            return productOffer;
         }
+
+        public IActionResult CheckIfChosenProductIsValid(string product)
+        {
+            var result = _receiptsService.CheckIfProductIsValid(product);
+
+            return Ok(result);
+        }
+
+        public IActionResult getProduct(string type, string id)
+        {
+            var productToReturn = new SoldProduct();
+
+            if(type == "panel")
+            {
+                var panel = _panelsService.GetById(Convert.ToInt32(id));
+                productToReturn.Id = panel.Id;
+                productToReturn.Name = panel.Name;
+                productToReturn.Price = panel.Price;
+                productToReturn.Type = "panel";
+
+            }
+            else
+            {
+                var product = _productsService.GetById(Convert.ToInt32(id));
+                productToReturn.Id = product.Id;
+                productToReturn.Name = product.Name;
+                productToReturn.Price = product.Price;
+                productToReturn.Type = "product";
+            }
+
+            return Ok(productToReturn);
+        }
+        
     }
 }
