@@ -19,5 +19,13 @@ namespace ScrewIt.ViewModels
 
         public double Price { get; set; }
 
+        public string GetFullName()
+        {
+            string fullName = this.Name + " - " + Convert.ToString(this.Thickness) + " - " + Convert.ToInt32(this.Length) + " x " + Convert.ToInt32(this.Height);
+
+            return fullName;
+
+        }
+
     }
 }

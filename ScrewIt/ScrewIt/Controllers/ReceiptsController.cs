@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using ScrewIt.Models;
 using ScrewIt.Services.Interfaces;
 using ScrewIt.ViewModels;
 using System;
@@ -13,21 +15,51 @@ namespace ScrewIt.Controllers
         private readonly IReceiptsService _receiptsService;
         private readonly IPanelsService _panelsService;
         private readonly IProductsService _productsService;
+        UserManager<ApplicationUser> _userManager;
 
         public ReceiptsController(
             IReceiptsService receiptsService,
             IPanelsService panelsService,
-            IProductsService productsService
+            IProductsService productsService,
+            UserManager<ApplicationUser> userManager
             )
         {
             _receiptsService = receiptsService;
             _panelsService = panelsService;
             _productsService = productsService;
+            _userManager = userManager;
 
         }
-        public IActionResult Create()
+
+        [HttpGet]
+        public IActionResult Create(int id)
         {
+            ViewBag.OrderId = id;
+
+            var userId = _userManager.GetUserId(User);
+            
+
+            if (userId != null)
+            {
+                ViewBag.UserId = userId;
+            }
+
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] ReceiptCreateModel receipt)
+        {
+            var response = _receiptsService.Create(receipt.OrderId, receipt.TotalForPayment, receipt.EmployeeId);
+
+            if (response.Status.IsSuccessful)
+            {
+                return Ok(response.Receipt.Id);
+            }
+            else
+            {
+                return BadRequest(new { Message = response.Status.Message });
+            }
         }
 
         public List<String> GetForAutoCompleteProduct(String term)
@@ -44,9 +76,9 @@ namespace ScrewIt.Controllers
             return Ok(result);
         }
 
-        public IActionResult getProduct(string type, string id)
+        public IActionResult getProductToSell(string type, string id)
         {
-            var productToReturn = new SoldProduct();
+            var productToReturn = new ProductToSell();
 
             if(type == "panel")
             {
@@ -68,6 +100,8 @@ namespace ScrewIt.Controllers
 
             return Ok(productToReturn);
         }
+
+
         
     }
 }

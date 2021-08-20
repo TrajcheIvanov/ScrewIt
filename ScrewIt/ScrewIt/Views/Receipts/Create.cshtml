@@ -3,7 +3,15 @@
 }
 
 
-<h1 class="text-white">Create Receipt</h1>
+
+
+ <h1 class="text-white col">Create Receipt</h1>
+
+ <div class="row col-md-8 offset-md-2 justify-content-around mb-2" id="TotalPriceAndFinish" style="display:none">
+     <a  id="TotalPriceRow" type="button" class="btn btn-warning col-md-4" href="#"> - - -  <i class="far fa-share-square"></i></a> 
+     <a type="button" class="btn btn-success col-md-4" href="#" onclick="createReceipt()"> Save & Send Receipt <i class="far fa-share-square"></i></a>
+ </div>
+ 
 
 <table class="table table-dark table-striped table-sm  table-responsive-sm col-md-8 offset-md-2 text-center">
     <thead>
@@ -17,7 +25,7 @@
             <th></th>
         </tr>
 
-    </thead>S
+    </thead>
     <tbody id="Input">
         <tr id="ProductInputSection" onkeydown="if(event.keyCode==13) CheckIfChosenProductIsValid()">
             <th id="No"> + </th>
@@ -40,14 +48,7 @@
 @section Scripts{
 <script>
     var soldProducts = [];
-
-    //var curentProduct = {
-    //    name: " ",
-    //    price: " ",
-    //    type: " ",
-    //    id: " ",
-    //    quantity: " "
-    //};
+    var number = 1;
 
     function CheckIfChosenProductIsValid() {
         var productInput = document.getElementById("ProductName");
@@ -58,7 +59,7 @@
                     clearProductInputSection()
                     hideProductInputSection();
                     getProduct(response.data.type, response.data.productId);
-                    
+
 
                 } else {
                     productInput.style.backgroundColor = "yellow";
@@ -71,7 +72,7 @@
     }
 
     function getProduct(type , id) {
-        axios.get(`https://localhost:44314/Receipts/getProduct?type=${type}&id=${id}`)
+        axios.get(`https://localhost:44314/Receipts/getProductToSell?type=${type}&id=${id}`)
             .then(function (response) {
 
                 var curentProduct = {
@@ -79,30 +80,30 @@
                     price: response.data.price,
                     type: response.data.type,
                     id: response.data.id,
-                    quantity: " "
+                    quantity: " ",
+                    number: number,
+                    totalPrice: 0
                 };
-                //curentProduct.name = response.data.name;
-                //curentProduct.price = response.data.price;
-                //curentProduct.type = response.data.type;
-                //curentProduct.id = response.data.id;
 
                 soldProducts.push(curentProduct)
 
+                number += 1;
+
                 updateReceiptList(curentProduct);
-              
+
             })
             .catch(function (error) {
                 console.log(error);
             })
     }
 
-    //product input 
+    //product input
     function hideProductInputSection() {
         var InputSection = document.getElementById("ProductInputSection")
         InputSection.style.display = "none";
     }
 
-    //product input 
+    //product input
     function showProductInputSection() {
         var InputSection = document.getElementById("ProductInputSection")
         InputSection.style.display = "table-row";
@@ -115,13 +116,13 @@
 
 
         quantityInputSection.innerHTML =
-            `<tr id="Product${soldProducts.length + 1}" onkeydown="if(event.keyCode==13) checkIfQuantityIsValid()">
-            <th id="No${soldProducts.length + 1}"> ${soldProducts.length + 1} </th>
-            <td id="Product${soldProducts.length + 1}">${curentProduct.name}</td>
-            <td id="M-unit${soldProducts.length + 1}"> ${curentProduct.type}</td>
-            <td id="Quantity${soldProducts.length + 1}"><input type="text" id="QuantityInput" class="form-control" required /></td>
-            <td id="Price${soldProducts.length + 1}"> ${curentProduct.price} </td>
-            <td id="Total${soldProducts.length + 1}"> - - - </td>
+            `<tr id="Product${soldProducts.length}" onkeydown="if(event.keyCode==13) checkIfQuantityIsValid()">
+            <th id="No${soldProducts.length}"> ${curentProduct.number} </th>
+            <td id="Product${soldProducts.length }">${curentProduct.name}</td>
+            <td id="M-unit${soldProducts.length }"> ${curentProduct.type}</td>
+            <td id="Quantity${soldProducts.length}"><input type="text" id="QuantityInput" class="form-control" required /></td>
+            <td id="Price${soldProducts.length }"> ${curentProduct.price} </td>
+            <td id="Total${soldProducts.length }"> ${@ViewBag.OrderId}</td>
             <td><button class="btn-sm btn-success" onclick="checkIfQuantityIsValid()">Add <i class="fas fa-plus-circle"></i></button></td>
             </tr >`
     }
@@ -132,25 +133,26 @@
         var InputSection = document.getElementById("ProductName");
         InputSection.value = '';
         InputSection.style.backgroundColor = "white";
-    } 
+    }
 
 
     function clearQuantityInputSection() {
         var quantityInputSection = document.getElementById("QuantityInputSection");
 
         quantityInputSection.innerHTML = null;
-    } 
+    }
 
     function checkIfQuantityIsValid() {
         var quantityInput = document.getElementById("QuantityInput");
 
-        if (parseInt(quantityInput.value) < 1 || quantityInput.value == null || isNaN(quantityInput.value)) {
+        if (parseInt(quantityInput.value) < 1 || quantityInput.value == null || isNaN(quantityInput.value) || quantityInput.value === "") {
             quantityInput.style.backgroundColor = "yellow";
             alert("Invalid input, check yellow background input!")
         } else {
 
             soldProducts[soldProducts.length - 1].quantity = quantityInput.value;
-            
+            soldProducts[soldProducts.length - 1].totalPrice = soldProducts[soldProducts.length - 1].price * soldProducts[soldProducts.length - 1].quantity;
+
             fillReceiptListWithNewProduct();
 
             showProductInputSection();
@@ -159,26 +161,98 @@
 
     //fill receipt list with new product
     function fillReceiptListWithNewProduct() {
-        
+
 
         clearQuantityInputSection();
 
         var receiptList = document.getElementById("ReceiptList");
 
-        receiptList.innerHTML += 
-            `<tr id="Product${soldProducts.length}">
-            <th id="No${soldProducts.length}"> ${soldProducts.length} </th>
-            <td id="Product${soldProducts.length}">${soldProducts[soldProducts.length - 1].name}</td>
-            <td id="M-unit${soldProducts.length}"> ${soldProducts[soldProducts.length - 1].type}</td>
-            <td id="Quantity${soldProducts.length}">${soldProducts[soldProducts.length - 1].quantity}</td>
-            <td id="Price${soldProducts.length}"> ${soldProducts[soldProducts.length - 1].price} </td>
-            <td id="Total${soldProducts.length}"> ${parseFloat(soldProducts[soldProducts.length - 1].quantity) * soldProducts[soldProducts.length - 1].price}</td>
-            <td><button class="btn-sm btn-danger" onclick="deleteProduct(${soldProducts.length})">Delete <i class="fas fa-plus-circle"></i></button></td>
+        receiptList.innerHTML +=
+            `<tr id="Product${soldProducts[soldProducts.length - 1].number}">
+            <th id="No${soldProducts[soldProducts.length - 1].number}"> ${soldProducts[soldProducts.length - 1].number} </th>
+            <td id="Product${soldProducts[soldProducts.length - 1].number}">${soldProducts[soldProducts.length - 1].name}</td>
+            <td id="M-unit${soldProducts[soldProducts.length - 1].number}"> ${soldProducts[soldProducts.length - 1].type}</td>
+            <td id="Quantity${soldProducts[soldProducts.length - 1].number}">${soldProducts[soldProducts.length - 1].quantity}</td>
+            <td id="Price${soldProducts[soldProducts.length - 1].number}"> ${soldProducts[soldProducts.length - 1].price} </td>
+            <td id="Total${soldProducts[soldProducts.length - 1].number}"> ${(parseFloat(soldProducts[soldProducts.length - 1].quantity) * soldProducts[soldProducts.length - 1].price).toFixed(2)}</td>
+            <td><button class="btn-sm btn-danger" onclick="deleteProduct(${soldProducts[soldProducts.length - 1].number})">Delete <i class="fas fa-plus-circle"></i></button></td>
             </tr >`
 
+        fillTotalPrice();
     }
 
-</script>
+    function deleteProduct(id) {
+
+        var x = confirm("Are you sure you want to delete?");
+
+        if (x) {
+            var rowToDelete = document.getElementById(`Product${id}`)
+            rowToDelete.innerHTML = null;
+
+
+            for (var i = 0; i < soldProducts.length; i++) {
+                if (soldProducts[i].number === id) {
+                    soldProducts.splice(i, 1);
+                }
+            }
+
+            fillTotalPrice();
+        }
+    }
+
+    function fillTotalPrice() {
+        var receiptTotalPrice = 0;
+
+        var totalPriceAndFinish = document.getElementById("TotalPriceAndFinish")
+
+        if (soldProducts.length > 0) {
+            for (var i = 0; i < soldProducts.length; i++) {
+                receiptTotalPrice += soldProducts[i].totalPrice;
+            }
+
+
+            totalPriceAndFinish.style.display = "flex";
+
+            var totalPriceRow = document.getElementById("TotalPriceRow")
+            totalPriceRow.innerText = "Total Price: " + receiptTotalPrice;
+        } else {
+
+            totalPriceAndFinish.style.display = "none";
+        }
+    }
+
+    function createReceipt() {
+        if (soldProducts.length > 0) {
+
+            var data = {
+                TotalForPayment: 0,
+                OrderId: @ViewBag.OrderId,
+                EmployeeId: "@ViewBag.UserId"
+            }
+
+            for (var i = 0; i < soldProducts.length; i++) {
+                data.TotalForPayment += soldProducts[i].totalPrice;
+            }
+
+
+            var url = "https://localhost:44314/Receipts/Create";
+
+            axios.post(url, data)
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+
+
+        }else {
+            alert("Receipt is empty!");
+        }
+    }
+
+    </script>
+
 <script type="text/javascript">
     $(function () {
         $("#ProductName").autocomplete({

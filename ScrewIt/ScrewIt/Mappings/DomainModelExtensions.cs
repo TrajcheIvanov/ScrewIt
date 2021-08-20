@@ -61,6 +61,8 @@ namespace ScrewIt.Mappings
                 Length = panel.Length,
                 Height = panel.Height,
                 Price = panel.Price
+
+
             };
         }
 

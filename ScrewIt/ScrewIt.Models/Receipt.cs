@@ -24,8 +24,8 @@ namespace ScrewIt.Models
 
         public List<ReceiptService> ReceiptServices { get; set; }
 
-        public string UserId { get; set; }
+        public string EmplyeeId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public ApplicationUser Emplyee { get; set; }
     }
 }

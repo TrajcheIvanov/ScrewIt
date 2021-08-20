@@ -1,4 +1,5 @@
-﻿using ScrewIt.Repositories.Interfaces;
+﻿using ScrewIt.Models;
+using ScrewIt.Repositories.Interfaces;
 using ScrewIt.Services.DtoModels;
 using ScrewIt.Services.Interfaces;
 using System;
@@ -13,15 +14,18 @@ namespace ScrewIt.Services
         private readonly IReceiptsRepository _receiptsRepository;
         private readonly IProductsRepository _productsRepository;
         private readonly IPanelsRepository _panelsRepository;
+        private readonly IOrdersRepository _ordersRepository;
 
         public ReceiptsService(
             IReceiptsRepository receiptsRepository,
             IProductsRepository productsRepository,
-            IPanelsRepository panelsRepository)
+            IPanelsRepository panelsRepository,
+            IOrdersRepository ordersRepository)
         {
             _receiptsRepository = receiptsRepository;
             _productsRepository = productsRepository;
             _panelsRepository = panelsRepository;
+            _ordersRepository = ordersRepository;
         }
 
         public CheckProductResponse CheckIfProductIsValid(string product)
@@ -49,6 +53,34 @@ namespace ScrewIt.Services
             {
                 response.ProductId = panelResponse.Id;
                 response.Type = "panel";
+            }
+
+            return response;
+        }
+
+        public CreateReceiptResponse Create(int orderId, double totalForPayment, string employeeId)
+        {
+            var response = new CreateReceiptResponse();
+
+            var order = _ordersRepository.GetById(orderId);
+            
+            if(order == null)
+            {
+                response.Status.IsSuccessful = false;
+            }
+            else
+            {
+                var receipt = new Receipt()
+                {
+                    OrderId = orderId,
+                    TotalForPayment = totalForPayment,
+                    EmplyeeId = employeeId,
+                    Paid = false,
+                    DateCreated = DateTime.Now,
+                };
+
+                _receiptsRepository.Add(receipt);
+                response.Receipt = _receiptsRepository.GetById(receipt.Id);
             }
 
             return response;

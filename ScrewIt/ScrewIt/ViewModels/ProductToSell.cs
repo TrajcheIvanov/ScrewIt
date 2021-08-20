@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ScrewIt.ViewModels
 {
-    public class SoldProduct
+    public class ProductToSell
     {
         public int Id { get; set; }
 

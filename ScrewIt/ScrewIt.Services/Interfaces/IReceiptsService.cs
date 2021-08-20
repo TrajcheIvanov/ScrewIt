@@ -9,5 +9,6 @@ namespace ScrewIt.Services.Interfaces
     {
         List<String> GetProductOffer(string term);
         CheckProductResponse CheckIfProductIsValid(string product);
+        CreateReceiptResponse Create(int orderId, double totalForPayment, string employeeId);
     }
 }
