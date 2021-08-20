@@ -47,6 +47,7 @@ namespace ScrewIt.Controllers
             return View();
         }
 
+
         [HttpPost]
         public IActionResult Create([FromBody] ReceiptCreateModel receipt)
         {

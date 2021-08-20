@@ -55,5 +55,7 @@ namespace ScrewIt.Repositories
         public DbSet<ReceiptProduct> ReceiptProducts { get; set; }
 
         public DbSet<ReceiptService> ReceiptServices { get; set; }
+
+        public DbSet<ReceiptItem> ReceiptItems { get; set; }
     }
 }

@@ -56,6 +56,7 @@ namespace ScrewIt
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<IServicesService, ServicesService>();
             services.AddTransient<IReceiptsService, ReceiptsService>();
+            services.AddTransient<IReceiptItemsRepository, ReceiptItemsRepository>();
 
             //register repositories
             services.AddTransient<IDimensionsRepository, DimensionsRepository>();
@@ -64,6 +65,8 @@ namespace ScrewIt
             services.AddTransient<IServicesRepository, ServicesRepository>();
             services.AddTransient<IProductsRepository, ProductsRepository>();
             services.AddTransient<IReceiptsRepository, ReceiptsRepository>();
+            services.AddTransient<IReceiptItemsService, ReceiptItemsService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

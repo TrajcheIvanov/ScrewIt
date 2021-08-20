@@ -3,8 +3,6 @@
 }
 
 
-
-
  <h1 class="text-white col">Create Receipt</h1>
 
  <div class="row col-md-8 offset-md-2 justify-content-around mb-2" id="TotalPriceAndFinish" style="display:none">
@@ -46,7 +44,7 @@
 </table>
 
 @section Scripts{
-<script>
+    <script>
     var soldProducts = [];
     var number = 1;
 
@@ -240,15 +238,49 @@
             axios.post(url, data)
                 .then(function (response) {
                     console.log(response);
+                    
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+
+            connectReceiptItemsWithReceipt();
+
+        }else {
+            alert("Receipt is empty!");
+        }
+    }
+
+    function connectReceiptItemsWithReceipt() {
+
+        var url = "https://localhost:44314/ReceiptItems/Create";
+
+        for (var i = 0; i < soldProducts.length; i++) {
+            
+
+             var data = {
+                 Name: soldProducts[i].name,
+                 Price: soldProducts[i].price,
+                 Type: soldProducts[i].type,
+                 SoldProduct: soldProducts[i].id,
+                 Quantity: parseFloat(soldProducts[i].quantity),
+                 TotalPrice: soldProducts[i].totalPrice,
+                 OrderId: @ViewBag.OrderId
+             }
+
+            data.TotalForPayment += soldProducts[i].totalPrice;
+        
+            axios.post(url, data)
+                .then(function (response) {
+                    console.log(response);
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
 
 
-        }else {
-            alert("Receipt is empty!");
         }
+
     }
 
     </script>

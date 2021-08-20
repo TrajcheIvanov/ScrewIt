@@ -17,6 +17,10 @@
     <Compile Remove="Migrations\20210726212150_AddedOrderDescription.Designer.cs" />
     <Compile Remove="Migrations\20210816090017_ChangeServiceReceipt.cs" />
     <Compile Remove="Migrations\20210816090017_ChangeServiceReceipt.Designer.cs" />
+    <Compile Remove="Migrations\20210820214332_AddedReceiptItemsTable.cs" />
+    <Compile Remove="Migrations\20210820214332_AddedReceiptItemsTable.Designer.cs" />
+    <Compile Remove="Migrations\20210820214642_add-migration AddedReceiptItemTable.cs" />
+    <Compile Remove="Migrations\20210820214642_add-migration AddedReceiptItemTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
