@@ -143,7 +143,7 @@
     function checkIfQuantityIsValid() {
         var quantityInput = document.getElementById("QuantityInput");
 
-        if (parseInt(quantityInput.value) < 1 || quantityInput.value == null || isNaN(quantityInput.value) || quantityInput.value === "") {
+        if (parseInt(quantityInput.value) < 1 || quantityInput.value == null || isNaN(quantityInput.value) || quantityInput.value === "" || quantityInput.value.trim() ==="") {
             quantityInput.style.backgroundColor = "yellow";
             alert("Invalid input, check yellow background input!")
         } else {
@@ -179,6 +179,11 @@
         fillTotalPrice();
     }
 
+    function clearReceiptList() {
+        var receiptList = document.getElementById("ReceiptList");
+        receiptList.innerHTML = null;
+    }
+    
     function deleteProduct(id) {
 
         var x = confirm("Are you sure you want to delete?");
@@ -238,13 +243,12 @@
             axios.post(url, data)
                 .then(function (response) {
                     console.log(response);
-                    
+                    connectReceiptItemsWithReceipt();
+                    clearReceiptList()
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
-
-            connectReceiptItemsWithReceipt();
 
         }else {
             alert("Receipt is empty!");
@@ -268,7 +272,7 @@
                  OrderId: @ViewBag.OrderId
              }
 
-            data.TotalForPayment += soldProducts[i].totalPrice;
+            //data.TotalForPayment += soldProducts[i].totalPrice;
         
             axios.post(url, data)
                 .then(function (response) {

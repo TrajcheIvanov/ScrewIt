@@ -80,10 +80,10 @@
         function updateUsersList() {
             var searchInput = document.getElementById("searchInput");
             var seachRequest = searchInput.value;
-            console.log(seachRequest);
+            //console.log(seachRequest);
 
             var url = `https://localhost:44314/UserManager/getUsers?filterCriteria=${seachRequest}`;
-            console.log(url);
+            //console.log(url);
 
             var usersList = document.getElementById("usersList");
             usersList.innerHTML = "";
@@ -92,9 +92,9 @@
             axios.get(url)
                 .then(function (response) {
                     // handle success
-                    console.log(response);
+                    //console.log(response);
                     for (let i = 0; i < response.data.length; i++) {
-                        console.log(response.data[i]);
+                        //console.log(response.data[i]);
 
 
                         var rowForAppend = document.createElement("tr");
@@ -108,11 +108,11 @@
                             `<td>` + response.data[i].phoneNumber + `</td>` +
                             `<td>` + response.data[i].email + `</td>` +
                             `<td>
-                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                  <div class="btn-group" role="group" aria-label="Basic example">
                                         <a type="button" class="btn btn-warning" href="/UserManager/Edit/` + response.data[i].id + `">Edit</a>
                                         <a type="button" class="btn btn-danger"  onclick="return confirm('Are you sure?')" href="/UserManager/Delete/` + response.data[i].id + `">Delete</a>
-                                    </div>
-                                </td>`
+                                  </div>
+                             </td>`
 
                         usersList.appendChild(rowForAppend);
                     }

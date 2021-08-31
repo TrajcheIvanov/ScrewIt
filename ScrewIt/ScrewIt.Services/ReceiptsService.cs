@@ -80,6 +80,8 @@ namespace ScrewIt.Services
                 };
 
                 _receiptsRepository.Add(receipt);
+                order.OrderStatus = OrderStatus.WaitingForPayment;
+                _ordersRepository.Update(order);
                 response.Receipt = _receiptsRepository.GetById(receipt.Id);
             }
 
