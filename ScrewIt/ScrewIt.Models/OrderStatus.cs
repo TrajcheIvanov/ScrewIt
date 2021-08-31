@@ -11,6 +11,7 @@ namespace ScrewIt.Models
         Pending,
         [Display(Name = "Waiting for Payment")]
         WaitingForPayment,
+        Paid,
         [Display(Name = "Processing by Production")]
         ProcessingByProduction,
         Completed

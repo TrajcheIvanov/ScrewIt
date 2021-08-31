@@ -73,12 +73,24 @@ namespace ScrewIt.Controllers
             return View(orderCreateModel);
         }
 
-        public IActionResult ManageOverview(string errorMessage, string successMessage)
+        public IActionResult ManageOverview(string filter, string errorMessage, string successMessage)
         {
             ViewBag.ErrorMessage = errorMessage;
             ViewBag.SuccessMessage = successMessage;
 
-            var orders = _ordersService.GetPendingOrders();
+            var orders = new List<Order>();
+
+            if(filter == null)
+            {
+                orders = _ordersService.GetPendingOrders();
+                
+            }
+            else
+            {
+                orders = _ordersService.GetOrdersWithFilter(filter);
+                
+            }
+
             var ordersToView = orders.Select(x => x.ToOrderViewModel()).ToList();
 
             return View(ordersToView);

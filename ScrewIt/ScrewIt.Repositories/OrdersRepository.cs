@@ -32,6 +32,44 @@ namespace ScrewIt.Repositories
                 .FirstOrDefault(x => x.Id == entityId);
         }
 
+        public List<Order> GetOrdersWithFilter(string filter)
+        {
+            if(filter == "pending")
+            {
+                return _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Panel)
+                .Where(x => x.OrderStatus == OrderStatus.Pending).ToList();
+            }else if(filter == "waitingForPayment")
+            {
+                return _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Panel)
+                .Where(x => x.OrderStatus == OrderStatus.WaitingForPayment).ToList();
+            }
+            else if (filter == "paid")
+            {
+                return _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Panel)
+                .Where(x => x.OrderStatus == OrderStatus.Paid).ToList();
+            }
+            else if (filter == "processingByProduction")
+            {
+                return _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Panel)
+                .Where(x => x.OrderStatus == OrderStatus.ProcessingByProduction).ToList();
+            }
+            else
+            {
+                return _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Panel)
+                .Where(x => x.OrderStatus == OrderStatus.Completed).ToList();
+            }
+        }
+
         public List<Order> GetPendingOrders()
         {
             return _context.Orders

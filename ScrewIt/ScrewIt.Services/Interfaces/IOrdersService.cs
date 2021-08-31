@@ -12,5 +12,6 @@ namespace ScrewIt.Services.Interfaces
         Order GetOrderById(int orderId);
         List<Order> GetPendingOrders();
         StatusModel Delete(int id);
+        List<Order> GetOrdersWithFilter(string filter);
     }
 }
