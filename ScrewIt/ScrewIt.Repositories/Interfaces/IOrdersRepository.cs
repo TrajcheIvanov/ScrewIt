@@ -9,5 +9,6 @@ namespace ScrewIt.Repositories.Interfaces
     {
         List<Order> GetPendingOrders();
         List<Order> GetOrdersWithFilter(string filter);
+        List<Order> GetOrdersForUser(string userId);
     }
 }

@@ -7,5 +7,6 @@ namespace ScrewIt.Repositories.Interfaces
 {
     public interface IReceiptItemsRepository : IBaseRepository<ReceiptItem>
     {
+        List<ReceiptItem> getItemsForOrder(int id);
     }
 }

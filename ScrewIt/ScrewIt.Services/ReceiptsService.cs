@@ -88,6 +88,11 @@ namespace ScrewIt.Services
             return response;
         }
 
+        public Receipt GetByOrderId(int id)
+        {
+            return _receiptsRepository.GetByOrderId(id);
+        }
+
         public List<string> GetProductOffer(string term)
         {
             var stringToReturn = new List<String>();

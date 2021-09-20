@@ -9,5 +9,6 @@ namespace ScrewIt.Services.Interfaces
     public interface IReceiptItemsService
     {
         AddReceiptItemResponse Create(ReceiptItem receiptItem);
+        List<ReceiptItem> getItemsForOrder(int id);
     }
 }

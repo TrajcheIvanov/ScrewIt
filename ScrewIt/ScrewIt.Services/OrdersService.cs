@@ -63,6 +63,11 @@ namespace ScrewIt.Services
             return _ordersRepository.GetById(orderId);
         }
 
+        public List<Order> GetOrdersForUser(string userId)
+        {
+            return _ordersRepository.GetOrdersForUser(userId);
+        }
+
         public List<Order> GetOrdersWithFilter(string filter)
         {
             return _ordersRepository.GetOrdersWithFilter(filter);

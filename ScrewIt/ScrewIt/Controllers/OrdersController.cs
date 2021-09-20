@@ -117,7 +117,24 @@ namespace ScrewIt.Controllers
 
             ViewBag.Dimensions = order.Dimensions.Select(x => x.ToDimensionViewModel()).ToList();
 
-            return View(orderToView);
+            if(order.OrderStatus == OrderStatus.Pending)
+            {
+                return View(orderToView);
+            }
+            else
+            {
+                return RedirectToAction("Details", "Receipts", new { orderId = id});
+            }
+
+        }
+
+        public IActionResult OrdersStatus()
+        {
+            var userId = _userManager.GetUserId(User);
+            var orders = _ordersService.GetOrdersForUser(userId);
+            var ordersToView = orders.Select(x => x.ToOrderViewModel()).ToList();
+
+            return View(ordersToView);
         }
     }
 }

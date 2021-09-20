@@ -1,0 +1,41 @@
+﻿@model ScrewIt.ViewModels.ReceiptViewModel
+
+@{
+    ViewData["Title"] = "Receipt";
+}
+
+
+<h1 class="text-white col">Receipt</h1>
+
+
+<div class="row col-md-8 offset-md-2 justify-content-around mb-2" >
+    <a type="button" class="btn btn-success col-md-6" href="#"> Pay the total amount: @Model.TotalForPayment <i class="far fa-share-square"></i></a>
+</div>
+
+
+<table class="table table-dark table-striped table-sm table-responsive-sm table-bordered text-center col-md-8 offset-md-2">
+    <thead>
+        <tr class="text-center">
+            <th scope="col">No.</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+        </tr>
+
+    </thead>
+    <tbody id="itemList">
+
+        @foreach (var item in ViewBag.ReceiptItems)
+        {
+            <tr>
+                <td></td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>@item.Quantity</td>
+                <td>@item.TotalPrice</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

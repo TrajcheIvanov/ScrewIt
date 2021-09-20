@@ -34,7 +34,9 @@ namespace ScrewIt.Mappings
                 Id = order.Id,
                 Username = order.User.Name,
                 OrderDescription = order.OrderDescription,
+                OrderStatus = order.OrderStatus,
                 PanelName = order.Panel.Name + " - " + order.Panel.Length + "x" + order.Panel.Height + "x" + order.Panel.Thickness + " mm"
+                
             };
         }
 
@@ -75,6 +77,20 @@ namespace ScrewIt.Mappings
                 Price = panel.Price,
                 MeasureUnit = panel.MeasureUnit,
                 ProductType = panel.ProductType
+            };
+        }
+
+        public static ReceiptViewModel ToViewModel(this Receipt receipt)
+        {
+            return new ReceiptViewModel()
+            {
+                Id = receipt.Id,
+                TotalForPayment = receipt.TotalForPayment,
+                DateCreated = receipt.DateCreated,
+                Paid = receipt.Paid,
+                DateOfPayment = receipt.DateOfPayment,
+                EmplyeeId = receipt.EmplyeeId,
+                OrderId = receipt.OrderId
             };
         }
     }

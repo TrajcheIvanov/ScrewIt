@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ScrewIt.Mappings;
 using ScrewIt.Models;
 using ScrewIt.Services.Interfaces;
 using ScrewIt.ViewModels;
@@ -15,12 +16,14 @@ namespace ScrewIt.Controllers
         private readonly IReceiptsService _receiptsService;
         private readonly IPanelsService _panelsService;
         private readonly IProductsService _productsService;
+        private readonly IReceiptItemsService _receiptItemsService;
         UserManager<ApplicationUser> _userManager;
 
         public ReceiptsController(
             IReceiptsService receiptsService,
             IPanelsService panelsService,
             IProductsService productsService,
+            IReceiptItemsService receiptItemsService,
             UserManager<ApplicationUser> userManager
             )
         {
@@ -28,6 +31,7 @@ namespace ScrewIt.Controllers
             _panelsService = panelsService;
             _productsService = productsService;
             _userManager = userManager;
+            _receiptItemsService = receiptItemsService;
 
         }
 
@@ -102,6 +106,17 @@ namespace ScrewIt.Controllers
             return Ok(productToReturn);
         }
 
+        
+        public IActionResult Details(int orderId)
+        {
+            var receiptToView = _receiptsService.GetByOrderId(orderId);
+
+            List<ReceiptItem> receiptItems = _receiptItemsService.getItemsForOrder(orderId);
+
+            ViewBag.ReceiptItems = receiptItems;
+
+            return View(receiptToView.ToViewModel());
+        }
 
         
     }

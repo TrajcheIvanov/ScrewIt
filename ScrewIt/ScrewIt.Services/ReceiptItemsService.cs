@@ -40,5 +40,10 @@ namespace ScrewIt.Services
 
             return response;
         }
+
+        public List<ReceiptItem> getItemsForOrder(int id)
+        {
+            return _receiptItemsRepositry.getItemsForOrder(id);
+        }
     }
 }

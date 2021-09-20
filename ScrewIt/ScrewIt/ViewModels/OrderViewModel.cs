@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScrewIt.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,5 +20,8 @@ namespace ScrewIt.ViewModels
 
         [Display(Name = "Panel-Info")]
         public string PanelName { get; set; }
+
+        [Display(Name = "Order-Status")]
+        public OrderStatus OrderStatus { get; set; }
     }
 }

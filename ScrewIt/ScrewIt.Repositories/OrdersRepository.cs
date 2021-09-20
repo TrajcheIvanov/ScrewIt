@@ -32,6 +32,14 @@ namespace ScrewIt.Repositories
                 .FirstOrDefault(x => x.Id == entityId);
         }
 
+        public List<Order> GetOrdersForUser(string userId)
+        {
+            return _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Panel)
+                .Where(x => x.UserId == userId).ToList();
+        }
+
         public List<Order> GetOrdersWithFilter(string filter)
         {
             if(filter == "pending")
