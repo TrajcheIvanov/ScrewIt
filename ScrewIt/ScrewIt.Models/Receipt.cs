@@ -14,7 +14,7 @@ namespace ScrewIt.Models
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateOfPayment { get; set; }
+        public DateTime? DateOfPayment { get; set; }
 
         public int OrderId { get; set; }
 

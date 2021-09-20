@@ -1,87 +1,10 @@
-﻿@model ScrewIt.ViewModels.OrderCreateModel
-
-@{
-    ViewBag.Title = "Create-Order";
-}
-
-<h1 class="text-white">Dimensions List </h1>
-
-<div class="container">
-        <div class="row col-md-8 offset-md-2">
-            <div class="col-12 col-md-5 offset-md-1">
-                <label class="control-label text-white" asp-for="OrderDescription">Order Description</label>
-                <input type="text" asp-for="OrderDescription" class="form-control" required placeholder="Please enter Order Description" id="OrderDescription" />
-            </div>
-            <div class="col-12 col-md-5">
-                <label class="control-label text-white" asp-for="PanelId">Choose Panel</label>
-                <select class="form-control" asp-for="PanelId" id="PanelIdSelectInput">
-                    <option value="0"> Please choose panel</option>
-                    @foreach (var item in ViewBag.Panels)
-                    {
-                        @*<option value=@item.Id> @item.Name -@item.Thickness mm-  @item.Length x @item.Height </option>*@
-                        <option value=@item.Id> @item.GetFullName() </option>
-                    }
-                </select>
-            </div>
-        </div>
-        <div class="row col-md-8 offset-md-2">
-            <div class="col p-3 ">
-                <button type="button" class="btn btn-success btn-lg p-1 col-md-5 offset-md-1" onclick="makeOrder()">Send Order <i class="far fa-share-square"></i></button>
-                <button type="button" class="btn btn-danger btn-lg p-1 col-md-5" onclick="ConfirmToClearDimensionList()">Clear dimension list <i class="far fa-trash-alt"></i></button>
-            </div>
-        </div>
-   
-</div>
-
-<table class="table table-dark table-striped table-sm table-responsive table-bordered text-center col-md-8 offset-md-2">
-    <thead>
-        <tr class="text-center">
-            <th scope="col" rowspan="2">No.</th>
-            <th scope="col" rowspan="2">1st Dimension</th>
-            <th scope="col" rowspan="2">2nd Dimension</th>
-            <th scope="col" rowspan="2">Quantity</th>
-            <th scope="col" rowspan="2">Rotation</th>
-            <th scope="col" colspan="2">1st Dimension</th>
-            <th scope="col" colspan="2">2nd Dimension</th>
-            <th scope="col" rowspan="2">Additional</th>
-            <th scope="col" rowspan="2"></th>
-        </tr>
-        
-        <tr>
-            <th scope="col">1st Edge</th>
-            <th scope="col">2nd Edge</th>
-            <th scope="col">1st Edge</th>
-            <th scope="col">2nd Edge</th>
-        </tr>
-    </thead>
-    <tbody id="dimensionList">
-        <tr class="Adding" onkeydown="if(event.keyCode==13) addDimension()">
-            <th id="number"></th>
-            <td id="FirstDimension"><input type="text" class="form-control" required /></td>
-            <td id="SecondDimension"><input type="text" class="form-control" required /></td>
-            <td id="Quantity"><input type="text" class="form-control" required /></td>
-            <td id="Rotation"><input type="text" class="form-control" /></td>
-            <td id="FirstDimensionFE"><input type="text" class="form-control" /></td>
-            <td id="FirstDimensionSE"><input type="text" class="form-control" /></td>
-            <td id="SecondDimensionFE"><input type="text" class="form-control" /></td>
-            <td id="SecondDimensionSE"><input type="text" class="form-control" /></td>
-            <td id="Additional"><input type="text" class="form-control" /></td>
-            <td><button class="btn-sm btn-success" onclick="addDimension()">Add</button></td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-@section Scripts{
-    
-    <script>
-        var nextId = 1;
+﻿
+    var nextId = 1;
 
         if (localStorage["nextId"] == undefined) {
-            nextId = 1;
+        nextId = 1;
         } else {
-            nextId = parseInt(localStorage.getItem("nextId"));
+        nextId = parseInt(localStorage.getItem("nextId"));
         }
 
 
@@ -142,12 +65,12 @@
             editButton.classList = ("btn-sm btn-warning");
             editButton.innerHTML = "Edit";
             editButton.setAttribute("type", "button");
-            editButton.onclick = function () { editDimension(currentId) };
+            editButton.onclick = function () {editDimension(currentId)};
             var deleteButton = document.createElement("button");
             deleteButton.classList = ("btn-sm btn-danger");
             deleteButton.innerHTML = "Delete";
             deleteButton.setAttribute("type", "button");
-            deleteButton.onclick = function () { deleteDimension(currentId) };
+            deleteButton.onclick = function () {deleteDimension(currentId)};
 
             buttonGroup.appendChild(editButton);
             buttonGroup.appendChild(deleteButton);
@@ -168,7 +91,7 @@
             //dimensionList.append(rowToAppend);
 
             var dimension = {
-                "FirstDimension": firstDimension,
+        "FirstDimension": firstDimension,
                 "SecondDimension": secondDimension,
                 "Quantity": quantity,
                 "Rotation": rotation,
@@ -180,9 +103,9 @@
             };
 
             if (!validateInputDimension(dimension)) {
-                alert("Wrong input!!!");
+        alert("Wrong input!!!");
             } else {
-                dimensionList.append(rowToAppend);
+        dimensionList.append(rowToAppend);
                 localStorage.setItem(nextId - 1, JSON.stringify(dimension));
                 localStorage.setItem("nextId", nextId);
 
@@ -246,10 +169,10 @@
 
         function clearInsertDimensionInput() {
             var insertDimension = document.getElementsByClassName("Adding");
-            for (let i = 0; i < insertDimension.length; i++) {
+            for (let i = 0; i < insertDimension.length; {
                 insertDimension[i].innerHTML = null;
             }
-        } 
+        }
 
         function addInsertDimension(id) {
             var dimensionList = document.getElementById("dimensionList");
@@ -268,12 +191,12 @@
                 '<td id="FirstDimension"><input type="text" class="form-control" required /> </td>' +
                 '<td id="SecondDimension"><input type="text" class="form-control" required /></td>' +
                 '<td id="Quantity"><input type="text" class="form-control" required /></td>' +
-                '<td id="Rotation"><input type="text" class="form-control"  /></td>' +
-                '<td id="FirstDimensionFE"><input type="text" class="form-control"  /></td>' +
-                '<td id="FirstDimensionSE"><input type="text" class="form-control"  /></td>' +
-                '<td id="SecondDimensionFE"><input type="text" class="form-control"  /></td>' +
-                '<td id="SecondDimensionSE"><input type="text" class="form-control"  /></td>' +
-                '<td id="Additional"><input type="text" class="form-control"  /></td>' +
+                '<td id="Rotation"><input type="text" class="form-control" /></td>' +
+                '<td id="FirstDimensionFE"><input type="text" class="form-control" /></td>' +
+                '<td id="FirstDimensionSE"><input type="text" class="form-control" /></td>' +
+                '<td id="SecondDimensionFE"><input type="text" class="form-control" /></td>' +
+                '<td id="SecondDimensionSE"><input type="text" class="form-control" /></td>' +
+                '<td id="Additional"><input type="text" class="form-control" /></td>' +
                 '<td>' + '<button class="btn-sm btn-success" onclick="addDimension()">Add</button>' + '</td>';
 
             dimensionList.append(rowToAppend);
@@ -296,12 +219,12 @@
                 '<td id="FirstDimension">' + '<input type="text" class="form-control" required value=' + dimensionForEdit.FirstDimension + ' />' +
                 '<td id="SecondDimension"><input type="text" class="form-control" required value=' + dimensionForEdit.SecondDimension + ' /></td>' +
                 '<td id="Quantity"><input type="text" class="form-control" required value=' + dimensionForEdit.Quantity + ' /></td>' +
-                '<td id="Rotation"><input type="text" class="form-control" value=' + dimensionForEdit.Rotation + '  /></td>' +
-                '<td id="FirstDimensionFE"><input type="text" class="form-control"  value=' + dimensionForEdit.FirstDimensionFE + ' /></td>' +
-                '<td id="FirstDimensionSE"><input type="text" class="form-control"  value=' + dimensionForEdit.FirstDimensionSE + ' /></td>' +
-                '<td id="SecondDimensionFE"><input type="text" class="form-control"  value=' + dimensionForEdit.SecondDimensionFE + ' /></td>' +
-                '<td id="SecondDimensionSE"><input type="text" class="form-control" value=' + dimensionForEdit.SecondDimensionSE + '  /></td>' +
-                '<td id="Additional"><input type="text" class="form-control"  value=' + dimensionForEdit.Additional + ' /></td>' +
+                '<td id="Rotation"><input type="text" class="form-control" value=' + dimensionForEdit.Rotation + ' /></td>' +
+                '<td id="FirstDimensionFE"><input type="text" class="form-control" value=' + dimensionForEdit.FirstDimensionFE + ' /></td>' +
+                '<td id="FirstDimensionSE"><input type="text" class="form-control" value=' + dimensionForEdit.FirstDimensionSE + ' /></td>' +
+                '<td id="SecondDimensionFE"><input type="text" class="form-control" value=' + dimensionForEdit.SecondDimensionFE + ' /></td>' +
+                '<td id="SecondDimensionSE"><input type="text" class="form-control" value=' + dimensionForEdit.SecondDimensionSE + ' /></td>' +
+                '<td id="Additional"><input type="text" class="form-control" value=' + dimensionForEdit.Additional + ' /></td>' +
                 '</td>' + '<td>' + '<button class="btn-sm btn-primary" onclick="saveEditedDimension(' + id + ')">Save</button>' + '</td>';
 
 
@@ -311,7 +234,7 @@
         function saveEditedDimension(id) {
 
             var dimension = {
-                "FirstDimension": document.getElementById("FirstDimension").firstChild.value,
+        "FirstDimension": document.getElementById("FirstDimension").firstChild.value,
                 "SecondDimension": document.getElementById("SecondDimension").firstChild.value,
                 "Quantity": document.getElementById("Quantity").firstChild.value,
                 "Rotation": document.getElementById("Rotation").firstChild.value,
@@ -352,7 +275,7 @@
                 '<td> ' + dimensionForEdit.Additional.replace("/","")  + ' </td>' +
                 '<td>' + '<div class="btn-group" role="group">' +
                 '<button class="btn-sm btn-warning" type="button" onclick="editDimension(' + id + ')">Edit</button>' +
-                '<button class="btn-sm btn-danger" type="button"  onclick="deleteDimension(' + id + ')">Delete</button>' +
+                '<button class="btn-sm btn-danger" type="button" onclick="deleteDimension(' + id + ')">Delete</button>' +
                 '</div>' + '</td>';
 
             addInsertDimension(nextId);
@@ -364,24 +287,24 @@
             var x = confirm("Are you sure you want to delete?");
 
             if (x) {
-                localStorage.removeItem(id);
+        localStorage.removeItem(id);
                 var rowForEdit = document.getElementById(id);
                 rowForEdit.innerHTML = null;
                 console.log("dimensions with id: " + id + " was removed")
 
                 fillDimensionListFromLocalStorage();
             } else {
-                console.log("dimensions with id: " + id + " was not removed")
-            }
+        console.log("dimensions with id: " + id + " was not removed")
+    }
 
         }
 
         function clearDimensionList() {
-            localStorage.clear();
+        localStorage.clear();
             var insertDimension = document.getElementsByClassName("Dimension");
-            for (let i = 0; i < insertDimension.length; i++) {
+            for (let i = 0; i < insertDimension.length; {
                 insertDimension[i].innerHTML = null;
-                
+
             }
             console.log("Dimension list cleared")
         }
@@ -391,28 +314,28 @@
             var x = confirm("Are you sure you want to Clear dimension list?");
 
             if (x) {
-                clearDimensionList();
+        clearDimensionList();
             }
         }
 
         function fillDimensionListFromLocalStorage() {
 
             var insertDimension = document.getElementsByClassName("Dimension");
-            for (let i = 0; i < insertDimension.length; i++) {
-                insertDimension[i].innerHTML = null;
+            for (let i = 0; i < insertDimension.length; {
+            insertDimension[i].innerHTML = null;
 
             }
 
             var dimensionList = document.getElementById("dimensionList");
 
             if (localStorage.length > 0) {
-                console.log("local storage is not empty");
+        console.log("local storage is not empty");
 
                 let newId = localStorage.length - 1;
 
                 for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--) {
 
-                    console.log("i = " + i)
+        console.log("i = " + i)
                     var KeyName = window.localStorage.key(i);
                     console.log(KeyName);
                     var dimensionForEdit = JSON.parse(localStorage.getItem(i));
@@ -443,7 +366,7 @@
                             '<td> ' + dimensionForEdit.Additional.replace("/", "") + ' </td>' +
                             '<td>' + '<div class="btn-group" role="group">' +
                             '<button class="btn-sm btn-warning" type="button" onclick="editDimension(' + i + ')">Edit</button>' +
-                            '<button class="btn-sm btn-danger" type="button"  onclick="deleteDimension(' + i + ')">Delete</button>' +
+                            '<button class="btn-sm btn-danger" type="button" onclick="deleteDimension(' + i + ')">Delete</button>' +
                             '</div>' + '</td>';
 
                         newId -= 1;
@@ -454,13 +377,13 @@
                 }
 
             } else {
-                console.log("local storage is empty");
-                
+        console.log("local storage is empty");
+
             }
         }
 
         window.onload = function () {
-            console.log("page was loaded");
+        console.log("page was loaded");
             fillDimensionListFromLocalStorage();
         }
 
@@ -478,7 +401,7 @@
 
             if (orderDescription != null && orderDescription.trim() != "" && panelId != null && panelId != "0") {
                 var data = {
-                    UserId: userId,
+        UserId: userId,
                     OrderDescription: orderDescription,
                     PanelId: parseInt(panelId)
                 }
@@ -487,7 +410,7 @@
 
                 axios.post(url, data)
                     .then(function (response) {
-                        orderDescriptionInput.value = "";
+        orderDescriptionInput.value = "";
                         console.log(response.data.id);
                         let dimensionsToSend = dimensionsArrayForPost(response.data.id);
                         sendLocalStorageDimensionToServer(dimensionsToSend);
@@ -495,30 +418,30 @@
 
                     })
                     .catch(function (error) {
-                        console.log(error);
+        console.log(error);
                     })
 
             } else {
-                alert("Order Description & Choose Panel field must be filled");
+        alert("Order Description & Choose Panel field must be filled");
             }
 
         }
 
         function sendLocalStorageDimensionToServer(dimensionsToSend) {
-            axios
-                .all(dimensionsToSend)
-                .then(axios.spread((...responses) => {
-                    responses.forEach(res => console.log('Success'))
-                    console.log('submitted all axios calls');
-                }))
-                .catch(error => { })
-        }
+        axios
+            .all(dimensionsToSend)
+            .then(axios.spread((...responses) => {
+                responses.forEach(res => console.log('Success'))
+                console.log('submitted all axios calls');
+            }))
+            .catch(error => { })
+    }
 
 
 
 
         function dimensionsArrayForPost(orderId) {
-            let axiosArray = []
+        let axiosArray = []
 
             for (let i = parseInt(localStorage.getItem("nextId")); i > 0; i--) {
 
@@ -529,7 +452,7 @@
                 } else {
 
                     var postData = {
-                        FirstDimension: parseInt(dimensionForEdit.FirstDimension),
+        FirstDimension: parseInt(dimensionForEdit.FirstDimension),
                         SecondDimension: parseInt(dimensionForEdit.SecondDimension),
                         Quantity: parseInt(dimensionForEdit.Quantity),
                         Rotation: false,
@@ -543,27 +466,27 @@
 
                     var firstFirst = parseInt(dimensionForEdit.FirstDimensionFE);
                     if (!isNaN(firstFirst)) {
-                        postData.FirstDimFirstEdge = firstFirst;
+        postData.FirstDimFirstEdge = firstFirst;
                     }
 
                     var firstSecond = parseInt(dimensionForEdit.FirstDimensionSE);
                     if (!isNaN(firstSecond)) {
-                        postData.FirstDimSecondEdge = firstSecond;
+        postData.FirstDimSecondEdge = firstSecond;
                     }
 
                     var secondFirst = parseInt(dimensionForEdit.SecondDimensionFE);
                     if (!isNaN(secondFirst)) {
-                        postData.SecondDimFirstEdge = secondFirst;
+        postData.SecondDimFirstEdge = secondFirst;
                     }
 
                     var secondSecond = parseInt(dimensionForEdit.SecondDimensionSE);
                     if (!isNaN(secondSecond)) {
-                        postData.SecondDimSecondEdge = secondSecond;
+        postData.SecondDimSecondEdge = secondSecond;
                     }
 
                     var toRotate = parseInt(dimensionForEdit.Rotation);
                     if (toRotate == 1) {
-                        postData.Rotation = true;
+        postData.Rotation = true;
                     }
 
                     let url = "https://localhost:44314/Dimension/Create";
@@ -571,7 +494,7 @@
                     //let newPromise = axios.post(url, postData);
 
                     let newPromise = axios({
-                        method: 'post',
+        method: 'post',
                         url: url,
                         data: postData
                     })
@@ -584,61 +507,5 @@
             return axiosArray;
         }
 
-        //function testDimensionPost() {
-        //    var dimensionForEdit = JSON.parse(localStorage.getItem("1"));
-
-
-        //    var postData = {
-        //        FirstDimension: parseInt(dimensionForEdit.FirstDimension),
-        //        SecondDimension: parseInt(dimensionForEdit.SecondDimension),
-        //        Quantity: parseInt(dimensionForEdit.Quantity),
-        //        Rotation: false,
-        //        FirstDimFirstEdge: 0,
-        //        FirstDimSecondEdge: 0,
-        //        SecondDimFirstEdge: 0,
-        //        SecondDimSecondEdge: 0,
-        //        AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
-        //        OrderId: 5
-        //    }
-
-        //    var firstFirst = parseInt(dimensionForEdit.FirstDimensionFE);
-        //    if (!isNaN(firstFirst)) {
-        //        postData.FirstDimFirstEdge = firstFirst;
-        //    }
-
-        //    var firstSecond = parseInt(dimensionForEdit.FirstDimensionSE);
-        //    if (!isNaN(firstSecond)) {
-        //        postData.FirstDimSecondEdge = firstSecond;
-        //    }
-
-        //    var secondFirst = parseInt(dimensionForEdit.SecondDimensionFE);
-        //    if (!isNaN(secondFirst)) {
-        //        postData.SecondDimFirstEdge = secondFirst;
-        //    }
-
-        //    var secondSecond = parseInt(dimensionForEdit.SecondDimensionSE);
-        //    if (!isNaN(secondSecond)) {
-        //        postData.SecondDimSecondEdge = secondSecond;
-        //    }
-
-        //    var toRotate = parseInt(dimensionForEdit.Rotation);
-        //    if (toRotate == 1) {
-        //        postData.Rotation = true;
-        //    }
-
-        //    console.log(postData);
-
-        //    var url = "https://localhost:44314/Dimension/Create";
-
-        //    axios.post(url, postData)
-        //        .then(function (response) {
-        //            console.log(response);
-        //        })
-        //        .catch(function (error) {
-        //            console.log(error);
-        //        })
-        //}
-
-    </script>
-}
+       
 
