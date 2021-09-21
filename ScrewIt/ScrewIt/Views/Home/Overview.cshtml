@@ -10,7 +10,7 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-       
+
         <p>User is logged</p>
         <p>@Model.Id</p>
         <p>@Model.Name</p>
@@ -22,3 +22,11 @@
         <p>User is NOT logged</p>
     }
 </h1>
+
+@section Scripts{
+<script>
+
+    swal("Welcome to Screwit"," This website is for carpenters or clients that have some knowledge for making a furniture","success");
+</script>
+
+}

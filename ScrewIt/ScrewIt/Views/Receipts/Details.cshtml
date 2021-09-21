@@ -7,35 +7,63 @@
 
 <h1 class="text-white col">Receipt</h1>
 
-
-<div class="row col-md-8 offset-md-2 justify-content-around mb-2" >
-    <a type="button" class="btn btn-success col-md-6" href="#"> Pay the total amount: @Model.TotalForPayment <i class="far fa-share-square"></i></a>
-</div>
-
-
-<table class="table table-dark table-striped table-sm table-responsive-sm table-bordered text-center col-md-8 offset-md-2">
-    <thead>
-        <tr class="text-center">
-            <th scope="col">No.</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total Price</th>
-        </tr>
-
-    </thead>
-    <tbody id="itemList">
-
-        @foreach (var item in ViewBag.ReceiptItems)
-        {
-            <tr>
-                <td></td>
-                <td>@item.Name</td>
-                <td>@item.Price</td>
-                <td>@item.Quantity</td>
-                <td>@item.TotalPrice</td>
+@if (ViewBag.NoReceipt != null)
+{
+    <table class="table table-dark table-striped table-sm table-responsive-sm table-bordered text-center col-md-8 offset-md-2">
+        <thead>
+            <tr scope="col" colspan="5" class="text-center">
+                 <th>
+                     <h1>@ViewBag.NoReceipt</h1>
+                 </th>
             </tr>
-        }
+        </thead>
+    </table>
+    
+}
+else
+{
+    <div class="row col-md-8 offset-md-2 justify-content-around mb-2">
+        <a type="button" class="btn btn-success col-md-6" href="#"> Pay the total amount: @Model.TotalForPayment <i class="far fa-share-square"></i></a>
+    </div>
 
-    </tbody>
-</table>
+
+    <table class="table table-dark table-striped table-sm table-responsive-sm table-bordered text-center col-md-8 offset-md-2">
+        <thead>
+            <tr class="text-center">
+                <th scope="col">No.</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Price</th>
+            </tr>
+
+        </thead>
+        <tbody id="itemList">
+
+            @for (int i = 0; i < ViewBag.ReceiptItems.Count; i++)
+            {
+                <tr>
+                    <td>@(i+1)</td>
+                    <td>@ViewBag.ReceiptItems[i].Name</td>
+                    <td>@ViewBag.ReceiptItems[i].Price</td>
+                    <td>@ViewBag.ReceiptItems[i].Quantity</td>
+                    <td>@ViewBag.ReceiptItems[i].TotalPrice</td>
+                </tr>
+            }
+
+            @*@foreach (var item in ViewBag.ReceiptItems)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.Name</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.TotalPrice</td>
+                </tr>
+            }*@
+
+        </tbody>
+    </table>
+}
+
+

@@ -111,11 +111,21 @@ namespace ScrewIt.Controllers
         {
             var receiptToView = _receiptsService.GetByOrderId(orderId);
 
-            List<ReceiptItem> receiptItems = _receiptItemsService.getItemsForOrder(orderId);
+            if(receiptToView != null)
+            {
+                List<ReceiptItem> receiptItems = _receiptItemsService.getItemsForOrder(orderId);
 
-            ViewBag.ReceiptItems = receiptItems;
+                ViewBag.ReceiptItems = receiptItems;
 
-            return View(receiptToView.ToViewModel());
+                return View(receiptToView.ToViewModel());
+            }
+            else
+            {
+                ViewBag.NoReceipt = "The order is still not processed by the Customer Support";
+                return View();
+            }
+
+            
         }
 
         

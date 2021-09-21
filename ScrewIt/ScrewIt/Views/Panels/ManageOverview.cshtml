@@ -14,16 +14,20 @@
         </div>
         @if (ViewBag.ErrorMessage != null)
         {
-            <div class="alert alert-danger col-md-6" role="alert">
-                @ViewBag.ErrorMessage
-            </div>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script type="text/javascript">swal("Oops...", "@ViewBag.ErrorMessage", "warning")</script>
         }
 
         @if (ViewBag.SuccessMessage != null)
         {
-            <div class="alert alert-success col-md-6" role="alert">
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            <script type="text/javascript">swal("Good one", "@ViewBag.SuccessMessage", "success")</script>
+
+
+            @*<div class="alert alert-success col-md-6" role="alert">
                 @ViewBag.SuccessMessage
-            </div>
+            </div>*@
+
         }
     </div>
 </div>
@@ -60,10 +64,38 @@
                 <td class="text-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <a type="button" class="btn-sm btn-info" href="/Panels/Edit/@panel.Id">Edit</a>
-                        <a type="button" class="btn-sm btn-danger" href="/Panels/Delete/@panel.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a type="button" class="btn-sm btn-danger" @*href="/Panels/Delete/@panel.Id"*@ onclick="deletePanel(@panel.Id)">Delete</a>
                     </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        function deletePanel(id) {
+            swal({
+                title: "Are you sure?",
+                text: "Once deleted, you will not be able to recover this imaginary file!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        location.href = '/Panels/Delete/' + id;
+
+                    } else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+        }
+
+
+        function okMessage(message) {
+            swal("Good one", message, "success");
+        }
+    </script>
+
+}
