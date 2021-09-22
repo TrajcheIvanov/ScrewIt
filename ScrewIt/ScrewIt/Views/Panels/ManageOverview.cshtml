@@ -4,6 +4,7 @@
     ViewData["Title"] = "ManagePanelsOverview";
 }
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <h1 class="text-white">Manage Panels</h1>
 <div class="container">
     <div class="col col-md-10 offset-1">
@@ -14,13 +15,12 @@
         </div>
         @if (ViewBag.ErrorMessage != null)
         {
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            
             <script type="text/javascript">swal("Oops...", "@ViewBag.ErrorMessage", "warning")</script>
         }
 
         @if (ViewBag.SuccessMessage != null)
         {
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
             <script type="text/javascript">swal("Good one", "@ViewBag.SuccessMessage", "success")</script>
 
 
