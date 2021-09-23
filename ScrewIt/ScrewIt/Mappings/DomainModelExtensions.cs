@@ -35,7 +35,8 @@ namespace ScrewIt.Mappings
                 Username = order.User.Name,
                 OrderDescription = order.OrderDescription,
                 OrderStatus = order.OrderStatus,
-                PanelName = order.Panel.Name + " - " + order.Panel.Length + "x" + order.Panel.Height + "x" + order.Panel.Thickness + " mm"
+                PanelName = order.Panel.Name + " - " + order.Panel.Length + "x" + order.Panel.Height + "x" + order.Panel.Thickness + " mm",
+                OrderCode = order.OrderCode
                 
             };
         }

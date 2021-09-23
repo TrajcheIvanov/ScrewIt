@@ -488,10 +488,11 @@
                 axios.post(url, data)
                     .then(function (response) {
                         orderDescriptionInput.value = "";
-                        console.log(response.data.id);
+                        console.log(response.data);
                         let dimensionsToSend = dimensionsArrayForPost(response.data.id);
                         sendLocalStorageDimensionToServer(dimensionsToSend);
                         clearDimensionList();
+                        showOrderCode(response.data.orderCode);
 
                     })
                     .catch(function (error) {
@@ -514,7 +515,9 @@
                 .catch(error => { })
         }
 
-
+        function showOrderCode(OrderCode) {
+            swal("Thank You ", "Your Order Code is: " + OrderCode, "success");
+        }
 
 
         function dimensionsArrayForPost(orderId) {
@@ -584,60 +587,7 @@
             return axiosArray;
         }
 
-        //function testDimensionPost() {
-        //    var dimensionForEdit = JSON.parse(localStorage.getItem("1"));
-
-
-        //    var postData = {
-        //        FirstDimension: parseInt(dimensionForEdit.FirstDimension),
-        //        SecondDimension: parseInt(dimensionForEdit.SecondDimension),
-        //        Quantity: parseInt(dimensionForEdit.Quantity),
-        //        Rotation: false,
-        //        FirstDimFirstEdge: 0,
-        //        FirstDimSecondEdge: 0,
-        //        SecondDimFirstEdge: 0,
-        //        SecondDimSecondEdge: 0,
-        //        AdditionalProcessing: dimensionForEdit.Additional.replace("/", ""),
-        //        OrderId: 5
-        //    }
-
-        //    var firstFirst = parseInt(dimensionForEdit.FirstDimensionFE);
-        //    if (!isNaN(firstFirst)) {
-        //        postData.FirstDimFirstEdge = firstFirst;
-        //    }
-
-        //    var firstSecond = parseInt(dimensionForEdit.FirstDimensionSE);
-        //    if (!isNaN(firstSecond)) {
-        //        postData.FirstDimSecondEdge = firstSecond;
-        //    }
-
-        //    var secondFirst = parseInt(dimensionForEdit.SecondDimensionFE);
-        //    if (!isNaN(secondFirst)) {
-        //        postData.SecondDimFirstEdge = secondFirst;
-        //    }
-
-        //    var secondSecond = parseInt(dimensionForEdit.SecondDimensionSE);
-        //    if (!isNaN(secondSecond)) {
-        //        postData.SecondDimSecondEdge = secondSecond;
-        //    }
-
-        //    var toRotate = parseInt(dimensionForEdit.Rotation);
-        //    if (toRotate == 1) {
-        //        postData.Rotation = true;
-        //    }
-
-        //    console.log(postData);
-
-        //    var url = "https://localhost:44314/Dimension/Create";
-
-        //    axios.post(url, postData)
-        //        .then(function (response) {
-        //            console.log(response);
-        //        })
-        //        .catch(function (error) {
-        //            console.log(error);
-        //        })
-        //}
+       
 
     </script>
 }

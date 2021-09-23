@@ -20,6 +20,8 @@ namespace ScrewIt.Models
 
         public DateTime DateToBeCompleted { get; set; }
 
+        public string OrderCode { get; set; }
+
         public OrderStatus OrderStatus { get; set; }
 
         public List<Dimension> Dimensions { get; set; }

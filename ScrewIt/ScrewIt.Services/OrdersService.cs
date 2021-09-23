@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ScrewIt.Common;
 using ScrewIt.Models;
 using ScrewIt.Repositories.Interfaces;
 using ScrewIt.Services.DtoModels;
@@ -29,8 +30,9 @@ namespace ScrewIt.Services
                 OrderDescription = domainModel.OrderDescription,
                 PanelId = domainModel.PanelId,
                 DateCreated = DateTime.Now,
-                OrderStatus = OrderStatus.Pending
-            };
+                OrderStatus = OrderStatus.Pending,
+                OrderCode = RandomCodeGenerator.RandomString(6)
+        };
 
             _ordersRepository.Add(newOrder);
 

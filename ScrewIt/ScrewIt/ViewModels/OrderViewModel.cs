@@ -23,5 +23,8 @@ namespace ScrewIt.ViewModels
 
         [Display(Name = "Order-Status")]
         public OrderStatus OrderStatus { get; set; }
+
+        [Display(Name = "Order-Code")]
+        public string OrderCode { get; set; }
     }
 }
