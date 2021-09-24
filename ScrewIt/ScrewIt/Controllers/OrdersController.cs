@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ScrewIt.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class OrdersController : Controller
     {
 
@@ -135,6 +135,21 @@ namespace ScrewIt.Controllers
             var ordersToView = orders.Select(x => x.ToOrderViewModel()).ToList();
 
             return View(ordersToView);
+        }
+
+        
+        public IActionResult CheckOrderStatusWithCode(string orderCode)
+        {
+            var order = _ordersService.GetOrderByCode(orderCode);
+
+            if(order == null)
+            {
+                ViewBag.OrderCode = orderCode;
+                return View();
+            } else
+            {
+                return View(order.ToOrderViewModel());
+            }
         }
     }
 }

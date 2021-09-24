@@ -14,5 +14,6 @@ namespace ScrewIt.Services.Interfaces
         StatusModel Delete(int id);
         List<Order> GetOrdersWithFilter(string filter);
         List<Order> GetOrdersForUser(string userId);
+        Order GetOrderByCode(string orderCode);
     }
 }

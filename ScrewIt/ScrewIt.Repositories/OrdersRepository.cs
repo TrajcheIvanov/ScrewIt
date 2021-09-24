@@ -32,6 +32,15 @@ namespace ScrewIt.Repositories
                 .FirstOrDefault(x => x.Id == entityId);
         }
 
+        public Order GetOrderByCode(string orderCode)
+        {
+            return _context.Orders
+                .Include(x => x.User)
+                .Include(x => x.Panel)
+                .Include(x => x.Dimensions)
+                .FirstOrDefault(x => x.OrderCode == orderCode);
+        }
+
         public List<Order> GetOrdersForUser(string userId)
         {
             return _context.Orders

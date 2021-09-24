@@ -12,10 +12,10 @@
         <thead>
             <tr>
                 <th scope="col">@Html.DisplayNameFor(model => model.Id)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.Username)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.PanelName)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.OrderDescription)</th>
                 <th scope="col">@Html.DisplayNameFor(model => model.OrderStatus)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.OrderCode)</th>
                 <th scope="col"></th>
             </tr>
         </thead>
@@ -27,9 +27,6 @@
                         @order.Id
                     </td>
                     <td>
-                        @order.Username
-                    </td>
-                    <td>
                         @order.PanelName
                     </td>
                     <td>
@@ -37,6 +34,9 @@
                     </td>
                     <td>
                         @order.OrderStatus
+                    </td>
+                     <td>
+                        @order.OrderCode
                     </td>
                     <td class="text-center">
                         <div class="btn-group" role="group" aria-label="Basic example">

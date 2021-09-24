@@ -1,0 +1,20 @@
+﻿@model ScrewIt.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "Orders Status";
+}
+
+<h1 class="text-white">Check Orders Status with Code</h1>
+
+@if (ViewBag.OrderCode != null)
+{
+    <h1>
+        Sorry, there isn't Order with Order-Code @ViewBag.OrderCode
+    </h1>
+}
+else {
+
+    <h1>The status is @Model.OrderStatus </h1>
+
+
+}

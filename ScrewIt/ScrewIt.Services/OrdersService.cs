@@ -60,6 +60,11 @@ namespace ScrewIt.Services
             return response;
         }
 
+        public Order GetOrderByCode(string orderCode)
+        {
+            return _ordersRepository.GetOrderByCode(orderCode);
+        }
+
         public Order GetOrderById(int orderId)
         {
             return _ordersRepository.GetById(orderId);
